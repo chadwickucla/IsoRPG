@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
+using UnityEngine;
 using System.Collections;
 
-public class TownToForrest : MonoBehaviour {
+public class LoadForrestOnE : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -13,8 +13,7 @@ public class TownToForrest : MonoBehaviour {
 	void Update () {
 	
 	}
-
-    void OnTriggerStay (Collider other)
+    void OnTriggerStay(Collider other)
     {
         if (Input.GetKeyDown(KeyCode.E) && other.gameObject.tag == "Player")
         {
