@@ -16,7 +16,7 @@ public class TownToForrest : MonoBehaviour {
 
     void OnTriggerStay (Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.E) && other.gameObject.tag == "player")
+        if (Input.GetKeyDown(KeyCode.E) && other.gameObject.tag == "Player")
         {
             SceneManager.LoadScene(1);
         }
