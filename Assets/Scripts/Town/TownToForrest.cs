@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class TownToForrest : MonoBehaviour {
@@ -12,4 +13,12 @@ public class TownToForrest : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    void OnTriggerStay (Collider other)
+    {
+        if (Input.GetKeyDown(KeyCode.E) && other.gameObject.tag == "player")
+        {
+            SceneManager.LoadScene(1);
+        }
+    }
 }
