@@ -9,9 +9,11 @@ public class playercontroller : MonoBehaviour
     private Vector3 destinationPosition;
     private float destinationDistance;
     private bool mouseDown = false;
+    bool canWalk;
     // Use this for initialization
     void Start()
     {
+        canWalk = true;
         destinationPosition = myTransform.position;
     }
 
@@ -38,6 +40,7 @@ public class playercontroller : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && GUIUtility.hotControl == 0)
         {
             mouseDown = false;
+            canWalk = true;
         }
         if (mouseDown == true)
         { 
@@ -51,11 +54,18 @@ public class playercontroller : MonoBehaviour
 
 
         // To prevent code from running if not needed
-        if (destinationDistance > .5f)
+        if ((destinationDistance > .5f) && canWalk == true)
         {
             myTransform.position = Vector3.MoveTowards(myTransform.position, new Vector3(destinationPosition.x, myTransform.position.y, destinationPosition.z), moveSpeed * Time.deltaTime);
         }
 
+    }
+    void OnTriggerEnter (Collider Other)
+    {
+        Debug.Log(canWalk);
+        if ((Other.tag == "wall")|| Other.tag == "NPC")
+         canWalk = false;
+        Debug.Log(canWalk);
     }
     
 }
