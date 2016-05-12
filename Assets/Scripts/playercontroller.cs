@@ -57,7 +57,7 @@ public class playercontroller : MonoBehaviour
         if ((destinationDistance > .5f) && canWalk == true)
         {
             myTransform.position = Vector3.MoveTowards(myTransform.position, new Vector3(destinationPosition.x, myTransform.position.y, destinationPosition.z), moveSpeed * Time.deltaTime);
-        }
+         }
 
     }
     void OnTriggerEnter (Collider Other)
