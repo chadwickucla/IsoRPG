@@ -11,7 +11,6 @@ public class CamPosition
 }
 
 public class CamRotate : MonoBehaviour {
-
     public Transform playerTransform;
     public CamPosition cam;
     private float maxX, maxY, maxZ, minX, minY, minZ;
