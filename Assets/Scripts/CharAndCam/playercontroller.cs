@@ -3,21 +3,39 @@ using System.Collections;
 
 public class playercontroller : MonoBehaviour
 {
-    private float moveSpeed;
-    public float playerSpeed;
-    public Transform myTransform;
-    private Vector3 destinationPosition;
-    private float destinationDistance;
-    private bool mouseDown = false;
-    bool canWalk;
-    // Use this for initialization
+    NavMeshAgent agent;
+    private bool mouseDown;
+
     void Start()
     {
-        canWalk = true;
-        destinationPosition = myTransform.position;
+        agent = GetComponent<NavMeshAgent>();
     }
 
-    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0)
+        {
+            mouseDown = true;
+        }
+        if (Input.GetMouseButtonUp(0) && GUIUtility.hotControl == 0)
+        {
+            mouseDown = false;
+        }
+
+
+        if (mouseDown == true)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                agent.SetDestination(hit.point);
+            }
+        }
+    }
+
+    /*
     void Update()
     {
         destinationDistance = Vector3.Distance(destinationPosition, myTransform.position);
@@ -60,6 +78,7 @@ public class playercontroller : MonoBehaviour
          }
 
     }
+    */
     /*void OnTriggerEnter (Collider Other)
     {
         Debug.Log(canWalk);
@@ -67,5 +86,5 @@ public class playercontroller : MonoBehaviour
          canWalk = false;
         Debug.Log(canWalk);
     }*/
-    
+
 }
