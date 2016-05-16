@@ -60,12 +60,12 @@ public class playercontroller : MonoBehaviour
          }
 
     }
-    void OnTriggerEnter (Collider Other)
+    /*void OnTriggerEnter (Collider Other)
     {
         Debug.Log(canWalk);
         if ((Other.tag == "wall")|| Other.tag == "NPC")
          canWalk = false;
         Debug.Log(canWalk);
-    }
+    }*/
     
 }
