@@ -5,7 +5,6 @@ public class playercontroller : MonoBehaviour
 {
     NavMeshAgent agent;
     private bool mouseDown;
-    public LayerMask mask = -1;
 
     void Start()
     {
@@ -29,7 +28,7 @@ public class playercontroller : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 100, mask.value))
+            if (Physics.Raycast(ray, out hit, 100))
             {
                 agent.SetDestination(hit.point);
             }
