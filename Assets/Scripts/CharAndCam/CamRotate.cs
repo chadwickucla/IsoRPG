@@ -9,15 +9,15 @@ public class CamPosition
 }
 
 public class CamRotate : MonoBehaviour {
-
     public Transform playerTransform;
     public CamPosition cam;
 
 	// Use this for initialization
 	void Start () {
-       
 	}
-
+    //-6 14.2 4
+    //Max: -18   42.6  12
+    //Min: -2    4.73  1.33
     // Update is called once per frame
     void Update()
     {
