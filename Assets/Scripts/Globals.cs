@@ -9,6 +9,8 @@ public class Globals : MonoBehaviour {
     public int lastMap;
     public bool loading;
 
+    Camera blackout;
+    Camera regular;
     void Awake()
     {
         if (GameObject.FindGameObjectsWithTag("TheGM").Length > 1)
@@ -21,7 +23,10 @@ public class Globals : MonoBehaviour {
     void Start()
     {
         //make  a list. check all objects with tag TheGM. if list is larger than 1, destroy this objcet
-        
+        blackout = GameObject.FindGameObjectWithTag("BlackCam").GetComponent<Camera>();//first attempt: is it happening?
+        regular = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        blackout.enabled = false;
+        regular.enabled = true;
         DontDestroyOnLoad(gameObject);
         loading = false;
         tracker = lastMap = 0;
@@ -32,6 +37,11 @@ public class Globals : MonoBehaviour {
                             //tracker == scene to be entered
                             //lastMap == scene that was last in (for placement purposes in new scene)
         {
+            blackout = GameObject.FindGameObjectWithTag("BlackCam").GetComponent<Camera>();
+            regular = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+            //set blackcam to true and regular to false
+            blackout.enabled = true;
+            regular.enabled = false;
             Debug.Log("Loading == true");
             if (tracker == 0)//coming into town
             {
@@ -58,6 +68,9 @@ public class Globals : MonoBehaviour {
                 SceneManager.LoadScene(1);
                 loading = false;
             }
+            blackout.enabled = false;
+            regular.enabled = true;
+            //set regular cam to true and black cam to false
         }
         
     }
