@@ -14,9 +14,13 @@ public class CamRotate : MonoBehaviour {
     public Transform playerTransform;
     public CamPosition cam;
     private float maxX, maxY, maxZ, minX, minY, minZ;
+    Vector3 camD;
+    float distance;
 
 	// Use this for initialization
 	void Start () {
+        
+
         maxX = cam.x * cam.maxZoom;
         maxY = cam.y * cam.maxZoom;
         maxZ = cam.z * cam.maxZoom;
@@ -29,16 +33,28 @@ public class CamRotate : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        camD = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+        distance = Vector3.Distance(camD, playerTransform.position);
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
-            cam.x = Mathf.Max(cam.x * 1.1f, maxX);
-            cam.y = Mathf.Min(cam.y * 1.1f, maxY);
-            cam.z = Mathf.Min(cam.z * 1.1f, maxZ);
+            Debug.Log(distance);
+            if (distance < 20)
+            {
+                cam.x = Mathf.Min(cam.x * 1.1f, maxX);
+                cam.y = Mathf.Max(cam.y * 1.1f, maxY);
+                cam.z = Mathf.Max(cam.z * 1.1f, maxZ);
+            }
+           
         } else if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
-            cam.x = Mathf.Min(cam.x * 0.9f, minX);
-            cam.y = Mathf.Max(cam.y * 0.9f, minY);
-            cam.z = Mathf.Max(cam.z * 0.9f, minZ);
+            Debug.Log(distance);
+            if (distance > 4)
+            {
+                cam.x = Mathf.Min(cam.x * 0.9f, minX);
+                cam.y = Mathf.Max(cam.y * 0.9f, minY);
+                cam.z = Mathf.Max(cam.z * 0.9f, minZ);
+            }
+           
         }
         transform.position = new Vector3(
                                         playerTransform.position.x + cam.x,
@@ -46,5 +62,5 @@ public class CamRotate : MonoBehaviour {
                                         playerTransform.position.z + cam.z
                                         );
 
-    }
+    }//issue with max valuse
 }

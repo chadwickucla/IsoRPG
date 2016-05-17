@@ -1,14 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class playercontroller : MonoBehaviour
 {
+    public Transform SpawnItemShop;
+    public Transform SpawnHealthHut;
+    public Transform SpawnForrest;
 
     private bool isIdle;
     private bool isAttacking;
     private bool isRunning;
     public GameObject Paladin;
     Animator anim;
+    Globals theGlobals;
 
     NavMeshAgent agent;
     private bool mouseDown;
@@ -16,11 +21,46 @@ public class playercontroller : MonoBehaviour
 
     void Start()
     {
+        theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            SpawnItemShop = GameObject.FindGameObjectWithTag("shopSpawn").GetComponent<Transform>();
+            SpawnHealthHut = GameObject.FindGameObjectWithTag("healthSpawn").GetComponent<Transform>();
+            SpawnForrest = GameObject.FindGameObjectWithTag("forrestSpawn").GetComponent<Transform>();
+        }
+
         isIdle = true;
         isAttacking = false;
         isRunning = false;
         anim = Paladin.GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        if (theGlobals.tracker == 0)//entering town
+        {
+            if (theGlobals.lastMap == 2)//from shop
+            {
+                gameObject.transform.position = SpawnItemShop.position;
+            }
+            else if (theGlobals.lastMap == 3)//from health
+            {
+                gameObject.transform.position = SpawnHealthHut.position;
+            }
+            else if (theGlobals.lastMap == 1)//from forrest
+            {
+                gameObject.transform.position = SpawnForrest.position;
+            }
+        }
+        else if (theGlobals.tracker == 2)//entering shop
+        {
+
+        }
+        else if (theGlobals.tracker == 3)//entering health
+        {
+
+        }
+        else if (theGlobals.tracker == 1)//entering forrest
+        {
+
+        }
     }
 
     void Update()

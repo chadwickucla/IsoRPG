@@ -2,66 +2,64 @@
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Globals : MonoBehaviour {
+    public int tracker;
+    public int lastMap;
+    public bool loading;
 
-    public GameObject tracker;
-    public bool sceneLoad;
-
-    bool created = false;
-
-    Transform shopSpawn;
-    Transform healthSpawn;
-    Transform forrestToTownSpawn;
-
-    // Use this for initialization
-
-    void Start () {
-        sceneLoad = false;
-
-        if (created == false)
+    void Awake()
+    {
+        if (GameObject.FindGameObjectsWithTag("TheGM").Length > 1)
         {
-            Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
-            DontDestroyOnLoad(gameObject);
-            created = true;
-        }
-        else
-        {
-            //Destroy(gameObject);
+            Debug.Log(GameObject.FindGameObjectsWithTag("TheGM").Length);
+            Destroy(gameObject);
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (sceneLoad == true)//make some bool that gets set to true on a scene load.
-        {
-            LoadAScene();
-        }
-	}
 
-    void LoadAScene()
+    void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 0)//town start
+        //make  a list. check all objects with tag TheGM. if list is larger than 1, destroy this objcet
+        
+        DontDestroyOnLoad(gameObject);
+        loading = false;
+        tracker = lastMap = 0;
+    }
+    void Update()
+    {
+        if (loading == true)//player entered some portal
+                            //tracker == scene to be entered
+                            //lastMap == scene that was last in (for placement purposes in new scene)
         {
+            Debug.Log("Loading == true");
+            if (tracker == 0)//coming into town
+            {
+                Debug.Log("Tracker == 0, LastMap = " + lastMap);
+                SceneManager.LoadScene(0);
+                
+                loading = false;
+            }
 
-            sceneLoad = false;
-        }
-        else if (SceneManager.GetActiveScene().buildIndex == 2)//shop entrance
-        {
-            SceneManager.LoadScene(0);
-            shopSpawn = GameObject.FindGameObjectWithTag("shopSpawn").transform;
-            GameObject.FindGameObjectWithTag("Player").transform.position = shopSpawn.position;
-            sceneLoad = false;
-        }
-        else if (SceneManager.GetActiveScene().buildIndex == 3)//health hut
-        {
+            else if (tracker == 2)//coming into itemshop
+            {
+                Debug.Log("Tracker == 2, LastMap = " + lastMap);
+                SceneManager.LoadScene(2);
+                loading = false;
+            }
 
-           sceneLoad = false;
+            else if (tracker == 3)//coming into health hut last
+            {
+                SceneManager.LoadScene(3);
+                loading = false;
+            }
+            else if (tracker == 1)//coming into forrest last
+            {
+                SceneManager.LoadScene(1);
+                loading = false;
+            }
         }
-        else if (SceneManager.GetActiveScene().buildIndex == 1)//forrest
-        {
-
-           sceneLoad = false;
-        }
+        
     }
 }
+//problem: two trackers spawn and the newest one pulls player to original location
