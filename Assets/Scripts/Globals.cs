@@ -5,14 +5,31 @@ using System.Collections;
 
 public class Globals : MonoBehaviour {
 
-    public int sceneNumber;
+    public GameObject tracker;
     public bool sceneLoad;
-	// Use this for initialization
 
-	void Start () {
-        sceneNumber = 0;
+    bool created = false;
+
+    Transform shopSpawn;
+    Transform healthSpawn;
+    Transform forrestToTownSpawn;
+
+    // Use this for initialization
+
+    void Start () {
         sceneLoad = false;
-	}
+
+        if (created == false)
+        {
+            Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
+            DontDestroyOnLoad(gameObject);
+            created = true;
+        }
+        else
+        {
+            //Destroy(gameObject);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -31,7 +48,9 @@ public class Globals : MonoBehaviour {
         }
         else if (SceneManager.GetActiveScene().buildIndex == 2)//shop entrance
         {
-
+            SceneManager.LoadScene(0);
+            shopSpawn = GameObject.FindGameObjectWithTag("shopSpawn").transform;
+            GameObject.FindGameObjectWithTag("Player").transform.position = shopSpawn.position;
             sceneLoad = false;
         }
         else if (SceneManager.GetActiveScene().buildIndex == 3)//health hut
@@ -44,10 +63,5 @@ public class Globals : MonoBehaviour {
 
            sceneLoad = false;
         }
-    }
-
-    void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
     }
 }

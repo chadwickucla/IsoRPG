@@ -2,10 +2,10 @@
 using System.Collections;
 
 public class LoadScene : MonoBehaviour {
-    public Globals theGlobals;
+    private GameObject theGlobals;
 	// Use this for initialization
 	void Start () {
-	
+        theGlobals = GameObject.FindGameObjectWithTag("tracker");
 	}
 	
 	// Update is called once per frame
@@ -15,6 +15,6 @@ public class LoadScene : MonoBehaviour {
     
     void OnTriggerEnter()
     {
-        theGlobals.sceneLoad = true;
+        theGlobals.GetComponent<Globals>().sceneLoad = true;
     }
 }
