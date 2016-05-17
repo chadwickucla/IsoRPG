@@ -85,14 +85,14 @@ public class playercontroller : MonoBehaviour
         }
 
 
-        if (agent.remainingDistance > 1.0f)
+        if (agent.remainingDistance > 0.5f)
         {
             isRunning = true;
             isIdle = false;
             isAttacking = false;
         }
 
-        else if (agent.remainingDistance <= 1.0f)//prob. solve for instant run deactivate
+        else if (agent.remainingDistance <= 0.5f)//prob. solve for instant run deactivate
         {
             isRunning = false;
             isIdle = true;
