@@ -5,11 +5,14 @@ public class AmbientSong : MonoBehaviour {
 
     public static AmbientSong instance;
 
+    public GameObject theParent;
+
     public AudioClip musicTown;
     public AudioClip musicForrest;
 
     int theLevel;
 
+    bool isPaused;
     bool isTown;
     bool isForrest;
 
@@ -29,6 +32,7 @@ public class AmbientSong : MonoBehaviour {
 
     void OnLevelWasLoaded(int level)
     {
+
         theLevel = level;
         Debug.Log("LevelLoaded!");
         if (level == 0)
@@ -68,9 +72,23 @@ public class AmbientSong : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (!GetComponent<AudioSource>().isPlaying)
+	    if (!GetComponent<AudioSource>().isPlaying && isPaused == false)
         {
             GetComponent<AudioSource>().Play();
-        }
+        }//find way to loop sounds
 	}
+
+    public void Pause()//stop this gameobject's sounds
+    {
+        isPaused = true;
+        Debug.Log("Paused");
+        GetComponentInParent<AudioSource>().Pause();
+        //GetComponent<AudioSource>().Pause();
+    }
+    public void Unpause()//resume this gameobject's sounds
+    {
+        isPaused = false;
+        Debug.Log("Unpaused");
+        GetComponentInParent<AudioSource>().UnPause();
+    }
 }

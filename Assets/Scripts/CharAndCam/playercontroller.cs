@@ -8,7 +8,7 @@ public class playercontroller : MonoBehaviour
     public Transform SpawnHealthHut;
     public Transform SpawnForrest;
     public AudioClip Beats;
-    public GameObject musictracker;
+    public AmbientSong musictracker;
 
     private bool isIdle;
     private bool isAttacking;
@@ -26,7 +26,7 @@ public class playercontroller : MonoBehaviour
 
     void Start()
     {
-        musictracker = GameObject.FindGameObjectWithTag("musictracker");
+        musictracker = GameObject.FindGameObjectWithTag("musictracker").GetComponent<AmbientSong>();
        songOn = false;
         theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();
         if (SceneManager.GetActiveScene().buildIndex == 0)
@@ -81,6 +81,8 @@ public class playercontroller : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0)
         {
+            if (isDancing == true)
+                musictracker.Unpause();
             mouseDown = true;
         }
         if (Input.GetMouseButtonUp(0) && GUIUtility.hotControl == 0)
@@ -90,6 +92,7 @@ public class playercontroller : MonoBehaviour
 
         if (mouseDown == true)
         {
+           
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 100, mask.value))
@@ -101,11 +104,16 @@ public class playercontroller : MonoBehaviour
 
         if (agent.remainingDistance > 0.5f)
         {
+           // if (songOn == true)
+           // {
+           //     musictracker.Unpause();
+            //}
+            GetComponent<AudioSource>().Stop();//turn off song on dance stop
             isRunning = true;
             isIdle = false;
             isAttacking = false;
             isDancing = false;
-        }
+       }
 
         else if (agent.remainingDistance <= 0.5f)//prob. solve for instant run deactivate
         {
@@ -113,21 +121,24 @@ public class playercontroller : MonoBehaviour
             isAttacking = false;
             if (!isDancing)
             {
-                GetComponent<AudioSource>().Stop();//turn off song on dance stop
-                musictracker.GetComponent<AudioSource>().enabled = true;
+                //GetComponent<AudioSource>().Stop();//turn off song on dance stop
+                //musictracker.GetComponent<AudioSource>().enabled = true;
                 isIdle = true;
                 songOn = false;
+               
+                
             }
-        else
-        {
-            if (songOn == false)
+            else
             {
-                musictracker.GetComponent<AudioSource>().enabled = false;
-                GetComponent<AudioSource>().PlayOneShot(Beats);//turn on song on dance
-                songOn = true;
+                if (songOn == false)
+                {
+                        musictracker.Pause();
+                        GetComponent<AudioSource>().PlayOneShot(Beats);//turn on song on dance
+                        songOn = true;
+                }
+                isIdle = false;
+
             }
-            isIdle = false;
-        }
         }
 
         if (isRunning == true)
