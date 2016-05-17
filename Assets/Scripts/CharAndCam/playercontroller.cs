@@ -11,6 +11,8 @@ public class playercontroller : MonoBehaviour
     private bool isIdle;
     private bool isAttacking;
     private bool isRunning;
+    private bool isDancing;
+
     public GameObject Paladin;
     Animator anim;
     Globals theGlobals;
@@ -32,6 +34,8 @@ public class playercontroller : MonoBehaviour
         isIdle = true;
         isAttacking = false;
         isRunning = false;
+        isDancing = false;
+
         anim = Paladin.GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         if (theGlobals.tracker == 0)//entering town
@@ -65,6 +69,11 @@ public class playercontroller : MonoBehaviour
 
     void Update()
     {
+        if ((Input.GetKeyDown(KeyCode.D)) && (isIdle == true))
+        {
+            Debug.Log("DANCE BITCH");
+            isDancing = true;
+        }
         if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0)
         {
             mouseDown = true;
@@ -90,32 +99,46 @@ public class playercontroller : MonoBehaviour
             isRunning = true;
             isIdle = false;
             isAttacking = false;
+            isDancing = false;
         }
 
         else if (agent.remainingDistance <= 0.5f)//prob. solve for instant run deactivate
         {
             isRunning = false;
-            isIdle = true;
             isAttacking = false;
+            if (!isDancing)
+                isIdle = true;
+            else
+                isIdle = false;
         }
 
         if (isRunning == true)
         {
+            anim.SetBool("isDancing", false);
             anim.SetBool("isRunning",true);
             anim.SetBool("isIdle", false);
             anim.SetBool("isAttacking", false);
         }
         else if (isAttacking == true)
         {
+            anim.SetBool("isDancing", false);
             anim.SetBool("isRunning", false);
             anim.SetBool("isIdle", false);
             anim.SetBool("isAttacking",true);
         }
         else if(isIdle == true)
         {
+            anim.SetBool("isDancing", false);
             anim.SetBool("isRunning", false);
             anim.SetBool("isAttacking", false);
             anim.SetBool("isIdle",true);
+        }
+        else if (isDancing == true)
+        {
+            anim.SetBool("isDancing", true);
+            anim.SetBool("isRunning", false);
+            anim.SetBool("isIdle", false);
+            anim.SetBool("isAttacking", false);
         }
     }
     
