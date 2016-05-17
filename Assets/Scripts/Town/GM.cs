@@ -12,6 +12,6 @@ public class GM : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        dir_Light.transform.Rotate(0.03f, 0.0f, 0.0f);
+       // dir_Light.transform.Rotate(0.03f, 0.0f, 0.0f);//light rotation
 	}
 }
