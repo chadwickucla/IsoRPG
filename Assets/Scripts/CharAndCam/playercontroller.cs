@@ -7,11 +7,14 @@ public class playercontroller : MonoBehaviour
     public Transform SpawnItemShop;
     public Transform SpawnHealthHut;
     public Transform SpawnForrest;
+    public AudioClip Beats;
+    public GameObject musictracker;
 
     private bool isIdle;
     private bool isAttacking;
     private bool isRunning;
     private bool isDancing;
+    private bool songOn;
 
     public GameObject Paladin;
     Animator anim;
@@ -23,6 +26,8 @@ public class playercontroller : MonoBehaviour
 
     void Start()
     {
+        musictracker = GameObject.FindGameObjectWithTag("musictracker");
+       songOn = false;
         theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
@@ -107,9 +112,22 @@ public class playercontroller : MonoBehaviour
             isRunning = false;
             isAttacking = false;
             if (!isDancing)
+            {
+                GetComponent<AudioSource>().Stop();//turn off song on dance stop
+                musictracker.GetComponent<AudioSource>().enabled = true;
                 isIdle = true;
-            else
-                isIdle = false;
+                songOn = false;
+            }
+        else
+        {
+            if (songOn == false)
+            {
+                musictracker.GetComponent<AudioSource>().enabled = false;
+                GetComponent<AudioSource>().PlayOneShot(Beats);//turn on song on dance
+                songOn = true;
+            }
+            isIdle = false;
+        }
         }
 
         if (isRunning == true)
