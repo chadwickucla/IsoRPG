@@ -8,6 +8,8 @@ public class AmbientSong : MonoBehaviour {
     public AudioClip musicTown;
     public AudioClip musicForrest;
 
+    int theLevel;
+
     bool isTown;
     bool isForrest;
 
@@ -27,6 +29,7 @@ public class AmbientSong : MonoBehaviour {
 
     void OnLevelWasLoaded(int level)
     {
+        theLevel = level;
         Debug.Log("LevelLoaded!");
         if (level == 0)
         {
@@ -50,7 +53,7 @@ public class AmbientSong : MonoBehaviour {
             isTown = false;
             isForrest = true;
         }
-        else//level == 2, 3
+        else if (level == 2 || level == 3)//level == 2, 3
         {
             return;
         }
@@ -65,6 +68,9 @@ public class AmbientSong : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if (!GetComponent<AudioSource>().isPlaying)
+        {
+            GetComponent<AudioSource>().Play();
+        }
 	}
 }
