@@ -34,7 +34,7 @@ public class CamRotate : MonoBehaviour {
     {
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
-            Debug.Log("asdfasdfasdf");
+            //Debug.Log("asdfasdfasdf");
             cam.x = Mathf.Max(cam.x * 1.1f, maxX);
             cam.y = Mathf.Min(cam.y * 1.1f, maxY);
             cam.z = Mathf.Min(cam.z * 1.1f, maxZ);  

@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
-
+//maybe store position vectors of spawns in here? (as you find them)
 public class Globals : MonoBehaviour {
     public int tracker;
     public int lastMap;
@@ -15,7 +15,7 @@ public class Globals : MonoBehaviour {
     {
         if (GameObject.FindGameObjectsWithTag("TheGM").Length > 1)
         {
-            Debug.Log(GameObject.FindGameObjectsWithTag("TheGM").Length);
+           // Debug.Log(GameObject.FindGameObjectsWithTag("TheGM").Length);
             Destroy(gameObject);
         }
     }
@@ -42,10 +42,12 @@ public class Globals : MonoBehaviour {
             //set blackcam to true and regular to false
             blackout.enabled = true;
             regular.enabled = false;
-            Debug.Log("Loading == true");
+           // Debug.Log("Loading == true");
+
+
             if (tracker == 0)//coming into town
             {
-                Debug.Log("Tracker == 0, LastMap = " + lastMap);
+               // Debug.Log("Tracker == 0, LastMap = " + lastMap);
                 SceneManager.LoadScene(0);
                 
                 loading = false;
@@ -53,7 +55,7 @@ public class Globals : MonoBehaviour {
 
             else if (tracker == 2)//coming into itemshop
             {
-                Debug.Log("Tracker == 2, LastMap = " + lastMap);
+               // Debug.Log("Tracker == 2, LastMap = " + lastMap);
                 SceneManager.LoadScene(2);
                 loading = false;
             }
@@ -68,6 +70,13 @@ public class Globals : MonoBehaviour {
                 SceneManager.LoadScene(1);
                 loading = false;
             }
+            else if (tracker == 4)//coming into forrest last
+            {
+                SceneManager.LoadScene(4);
+                loading = false;
+            }
+
+
             blackout.enabled = false;
             regular.enabled = true;
             //set regular cam to true and black cam to false

@@ -7,6 +7,7 @@ public class playercontroller : MonoBehaviour
     public Transform SpawnItemShop;
     public Transform SpawnHealthHut;
     public Transform SpawnForrest;
+    public Transform SpawnDen;
     public AudioClip Beats;
     public AmbientSong musictracker;
 
@@ -23,26 +24,35 @@ public class playercontroller : MonoBehaviour
     NavMeshAgent agent;
     private bool mouseDown;
     public LayerMask mask = -1;
-
-    void Start()
+    void Awake()
     {
-        musictracker = GameObject.FindGameObjectWithTag("musictracker").GetComponent<AmbientSong>();
-       songOn = false;
-        theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             SpawnItemShop = GameObject.FindGameObjectWithTag("shopSpawn").GetComponent<Transform>();
             SpawnHealthHut = GameObject.FindGameObjectWithTag("healthSpawn").GetComponent<Transform>();
             SpawnForrest = GameObject.FindGameObjectWithTag("forrestSpawn").GetComponent<Transform>();
         }
+        else if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            SpawnDen = GameObject.FindGameObjectWithTag("denSpawn").GetComponent<Transform>();
+        }
+    }
 
+    void Start()
+    {
+        musictracker = GameObject.FindGameObjectWithTag("musictracker").GetComponent<AmbientSong>();
+        songOn = false;
+        theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();
+
+        agent = GetComponent<NavMeshAgent>();
+
+        anim = Paladin.GetComponent<Animator>();
         isIdle = true;
         isAttacking = false;
         isRunning = false;
         isDancing = false;
 
-        anim = Paladin.GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();
+       
         if (theGlobals.tracker == 0)//entering town
         {
             if (theGlobals.lastMap == 2)//from shop
@@ -58,6 +68,19 @@ public class playercontroller : MonoBehaviour
                 gameObject.transform.position = SpawnForrest.position;
             }
         }
+        else if (theGlobals.tracker == 1)//entering forrest
+        {
+            if (theGlobals.lastMap == 4)//from den
+            {
+                gameObject.transform.position = SpawnDen.position;
+                //fuckin weird ass problem here where the player doesn't spawn at spawnden
+                //the player will move with this line on, but doesn't move to the right location... they end up by some tree
+            }
+            else if (theGlobals.lastMap == 0)//from town
+            {
+                //do nothing since we want the char to spawn at typical location
+            }
+        }
         else if (theGlobals.tracker == 2)//entering shop
         {
 
@@ -66,7 +89,8 @@ public class playercontroller : MonoBehaviour
         {
 
         }
-        else if (theGlobals.tracker == 1)//entering forrest
+        
+        else if (theGlobals.tracker == 4)//entering den
         {
 
         }
@@ -74,6 +98,8 @@ public class playercontroller : MonoBehaviour
 
     void Update()
     {
+       // if (theGlobals.tracker == 1 && theGlobals.lastMap == 4)
+       //     gameObject.transform.position = SpawnDen.position;
         if ((Input.GetKeyDown(KeyCode.D)) && (isIdle == true))
         {
             Debug.Log("DANCE BITCH");
@@ -82,7 +108,9 @@ public class playercontroller : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0)
         {
             if (isDancing == true)
+            {
                 musictracker.Unpause();
+            }
             mouseDown = true;
         }
         if (Input.GetMouseButtonUp(0) && GUIUtility.hotControl == 0)

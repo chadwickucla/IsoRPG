@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class LoadScene : MonoBehaviour {
-   private Globals theGlobals;
+    private Globals theGlobals;
     public int BuildIndexToGoTo; //set in inspector
 	// Use this for initialization
 
@@ -21,7 +21,7 @@ public class LoadScene : MonoBehaviour {
     {
         if (Other.gameObject.tag == "Player")
         {
-            Debug.Log("Tag == player");
+            //Debug.Log("Tag == player");
             //theGlobals.tempPlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
             theGlobals.lastMap = SceneManager.GetActiveScene().buildIndex;
             theGlobals.tracker = BuildIndexToGoTo;

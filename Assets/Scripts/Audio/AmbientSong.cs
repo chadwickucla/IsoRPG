@@ -34,7 +34,7 @@ public class AmbientSong : MonoBehaviour {
     {
 
         theLevel = level;
-        Debug.Log("LevelLoaded!");
+      //  Debug.Log("LevelLoaded!");
         if (level == 0)
         {
             if (isTown == false)
@@ -81,14 +81,14 @@ public class AmbientSong : MonoBehaviour {
     public void Pause()//stop this gameobject's sounds
     {
         isPaused = true;
-        Debug.Log("Paused");
+       // Debug.Log("Paused");
         GetComponentInParent<AudioSource>().Pause();
         //GetComponent<AudioSource>().Pause();
     }
     public void Unpause()//resume this gameobject's sounds
     {
         isPaused = false;
-        Debug.Log("Unpaused");
+       // Debug.Log("Unpaused");
         GetComponentInParent<AudioSource>().UnPause();
     }
 }

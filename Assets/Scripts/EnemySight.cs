@@ -29,7 +29,7 @@ public class EnemySight : MonoBehaviour {
         
         if (playerInSight == true)//we r gonna be running
         {
-           Debug.Log(nav.remainingDistance);
+          // Debug.Log(nav.remainingDistance);
             if (nav.remainingDistance > 3)//CHASE RANEG
             {
                 //Debug.Log("PlayerInSightButFar");
