@@ -17,6 +17,10 @@ public class playercontroller : MonoBehaviour
     private bool isDancing;
     private bool songOn;
 
+    bool stillfuck = true;
+    //bool fuckthisspawnglitch = false;
+    //bool doublefuckthisspawnglitch = false;
+
     public GameObject Paladin;
     Animator anim;
     Globals theGlobals;
@@ -24,6 +28,7 @@ public class playercontroller : MonoBehaviour
     NavMeshAgent agent;
     private bool mouseDown;
     public LayerMask mask = -1;
+
     void Awake()
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
@@ -34,6 +39,7 @@ public class playercontroller : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().buildIndex == 1)
         {
+            //Debug.Log("IsThisRun?");
             SpawnDen = GameObject.FindGameObjectWithTag("denSpawn").GetComponent<Transform>();
         }
     }
@@ -72,7 +78,12 @@ public class playercontroller : MonoBehaviour
         {
             if (theGlobals.lastMap == 4)//from den
             {
+                Debug.Log(SpawnDen.position);
                 gameObject.transform.position = SpawnDen.position;
+                //gameObject.transform.position = SpawnForrestMiddle.position;
+                //gameObject.transform.position = new Vector3(SpawnDen.position.x, SpawnDen.position.y, SpawnDen.position.z);//new Vector3(30.0f, 0.0f, 0.0f);//SpawnDen.position;
+                //fuckthisspawnglitch = true;
+                //doublefuckthisspawnglitch = true;
                 //fuckin weird ass problem here where the player doesn't spawn at spawnden
                 //the player will move with this line on, but doesn't move to the right location... they end up by some tree
             }
@@ -98,8 +109,13 @@ public class playercontroller : MonoBehaviour
 
     void Update()
     {
-       // if (theGlobals.tracker == 1 && theGlobals.lastMap == 4)
-       //     gameObject.transform.position = SpawnDen.position;
+        if (theGlobals.tracker == 1 && theGlobals.lastMap == 4 && stillfuck == true)
+        {
+            gameObject.transform.position = SpawnDen.position;
+            stillfuck = false;
+        }
+
+
         if ((Input.GetKeyDown(KeyCode.D)) && (isIdle == true))
         {
             Debug.Log("DANCE BITCH");
