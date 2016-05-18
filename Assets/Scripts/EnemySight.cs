@@ -9,16 +9,19 @@ public class EnemySight : MonoBehaviour {
     private GameObject player;
     private LayerMask mask = -1;
 
+    public float reduceRunAnim; //added this
+
     Animator anim;
 
     private Vector3 previousSighting;
 
     void Start()
     {
+        reduceRunAnim = 1.0f;
         anim = gameObject.GetComponent<Animator>();
         nav = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
-        personalLastSighting = new Vector3 (0,0,0);
+        personalLastSighting = gameObject.transform.position;//new Vector3 (0,0,0);//this 0,0,0 was sending them to the central scene location on scene load. replaced with current position. works
         playerInSight = false;
     }
     void Update()
@@ -30,7 +33,9 @@ public class EnemySight : MonoBehaviour {
             if (nav.remainingDistance > 3)//CHASE RANEG
             {
                 //Debug.Log("PlayerInSightButFar");
+                
                 anim.SetBool("isRunning", true);
+               //GetComponent<Animation>()["Vampire_A_Lusth@running_inPlace"].speed = reduceRunAnim;//possible way to reduce odd run look
                 anim.SetBool("isDancing", false);
                 anim.SetBool("isIdle", false);
             }
