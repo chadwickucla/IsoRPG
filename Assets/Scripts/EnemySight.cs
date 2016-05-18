@@ -26,8 +26,8 @@ public class EnemySight : MonoBehaviour {
         
         if (playerInSight == true)//we r gonna be running
         {
-            //Debug.Log(nav.remainingDistance);
-            if (nav.remainingDistance > 3)
+           Debug.Log(nav.remainingDistance);
+            if (nav.remainingDistance > 3)//CHASE RANEG
             {
                 //Debug.Log("PlayerInSightButFar");
                 anim.SetBool("isRunning", true);
@@ -37,27 +37,28 @@ public class EnemySight : MonoBehaviour {
             else
             {
                 //Debug.Log("PlayerInSightButNear");
+                if (nav.remainingDistance <3 )//ATTACL/DANCE RANGE
+                { 
                 anim.SetBool("isRunning", false);
                 anim.SetBool("isDancing", true);
                 anim.SetBool("isIdle", false);//placeholder for attacking
+                }
             }
             personalLastSighting = player.transform.position;
         }
-        else
+        else//PLAYER ESCAPED
         {
-            
-           // if (nav.remainingDistance < 3)
-            //{
-                //Debug.Log("PlayerNotInSight");
-                anim.SetBool("isRunning", false);
-                anim.SetBool("isDancing", false);
+            //Debug.Log("PlayerNotInSight");
+            anim.SetBool("isRunning", false);
+            anim.SetBool("isDancing", false);
+            if (nav.remainingDistance < 3)
                 anim.SetBool("isIdle", true);
-            //}
         }
-        //if (nav.remainingDistance > .5)
-        //{
+       // if (nav.remainingDistance > .5)
+      //  {
+        
         nav.SetDestination(personalLastSighting);
-        //}
+       // }
     }
     /*void OnLevelWasLoaded(int level)
     {
