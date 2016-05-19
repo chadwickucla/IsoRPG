@@ -5,9 +5,11 @@ using System.Collections;
 public class playercontroller : MonoBehaviour
 {
     public Transform SpawnItemShop;
+    //THIS public Transform SpawnHealthHutPatio;
     public Transform SpawnHealthHut;
     public Transform SpawnForrest;
     public Transform SpawnDen;
+
     public AudioClip Beats;
     public AmbientSong musictracker;
 
@@ -18,6 +20,8 @@ public class playercontroller : MonoBehaviour
     private bool songOn;
 
     bool stillfuck = true;
+    bool itemshopfuck = true;
+    bool patiospawnfuck = true;
     //bool fuckthisspawnglitch = false;
     //bool doublefuckthisspawnglitch = false;
 
@@ -31,10 +35,12 @@ public class playercontroller : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("TESTING");
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             SpawnItemShop = GameObject.FindGameObjectWithTag("shopSpawn").GetComponent<Transform>();
             SpawnHealthHut = GameObject.FindGameObjectWithTag("healthSpawn").GetComponent<Transform>();
+            //THIS SpawnHealthHutPatio = GameObject.FindGameObjectWithTag("healthSpawnPatio").GetComponent<Transform>();
             SpawnForrest = GameObject.FindGameObjectWithTag("forrestSpawn").GetComponent<Transform>();
         }
         else if (SceneManager.GetActiveScene().buildIndex == 1)
@@ -46,12 +52,12 @@ public class playercontroller : MonoBehaviour
 
     void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
+
         musictracker = GameObject.FindGameObjectWithTag("musictracker").GetComponent<AmbientSong>();
         songOn = false;
         theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();
-
-        agent = GetComponent<NavMeshAgent>();
-
+        
         anim = Paladin.GetComponent<Animator>();
         isIdle = true;
         isAttacking = false;
@@ -63,11 +69,19 @@ public class playercontroller : MonoBehaviour
         {
             if (theGlobals.lastMap == 2)//from shop
             {
-                gameObject.transform.position = SpawnItemShop.position;
+               gameObject.transform.position = SpawnItemShop.position;
             }
             else if (theGlobals.lastMap == 3)//from health
             {
-                gameObject.transform.position = SpawnHealthHut.position;
+                gameObject.transform.position = SpawnHealthHut.position;//THIS
+                //THIS      if (theGlobals.whichEntrance == 1)//leaving through front door
+                //THIS      {
+                //THIS          gameObject.transform.position = SpawnHealthHut.position;
+                //THIS      }
+                //THIS      if (theGlobals.whichEntrance == 2)//leaving through patio door
+                //THIS      {
+                //THIS         gameObject.transform.position = SpawnHealthHutPatio.position;
+                //THIS       }
             }
             else if (theGlobals.lastMap == 1)//from forrest
             {
@@ -107,13 +121,26 @@ public class playercontroller : MonoBehaviour
         }
     }
 
+
     void Update()
     {
-        if (theGlobals.tracker == 1 && theGlobals.lastMap == 4 && stillfuck == true)
-        {
-            gameObject.transform.position = SpawnDen.position;
-            stillfuck = false;
-        }
+        //THIS  if (theGlobals.tracker == 1 && theGlobals.lastMap == 4 && stillfuck == true)
+        //THIS  {
+        //THIS      gameObject.transform.position = SpawnDen.position;
+        //THIS      stillfuck = false;
+        //THIS  }
+        //THIS  if (theGlobals.tracker == 0 && theGlobals.lastMap == 2 && itemshopfuck == true)
+        //THIS   {
+        //THIS      SpawnItemShop = GameObject.FindGameObjectWithTag("shopSpawn").GetComponent<Transform>();///
+        //THIS      gameObject.transform.position = SpawnItemShop.position;
+        //THIS        itemshopfuck = false;
+        //THIS   }
+        //THIS  if (theGlobals.tracker == 0 && theGlobals.lastMap == 3 && patiospawnfuck == true && theGlobals.whichEntrance == 2)
+        //THIS    {
+        //THIS        SpawnHealthHutPatio = GameObject.FindGameObjectWithTag("healthSpawnPatio").GetComponent<Transform>();//
+        //THIS        gameObject.transform.position = SpawnHealthHutPatio.position;
+        //THIS        patiospawnfuck = false;
+        //THIS   }
 
 
         if ((Input.GetKeyDown(KeyCode.D)) && (isIdle == true))

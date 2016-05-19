@@ -7,10 +7,12 @@ using System.Collections.Generic;
 public class Globals : MonoBehaviour {
     public int tracker;
     public int lastMap;
+    //THIS public int whichEntrance;
     public bool loading;
+    public Globals recGlobals;
 
-    Camera blackout;
-    Camera regular;
+    //Camera blackout;
+   // Camera regular;
     void Awake()
     {
         if (GameObject.FindGameObjectsWithTag("TheGM").Length > 1)
@@ -23,13 +25,14 @@ public class Globals : MonoBehaviour {
     void Start()
     {
         //make  a list. check all objects with tag TheGM. if list is larger than 1, destroy this objcet
-        blackout = GameObject.FindGameObjectWithTag("BlackCam").GetComponent<Camera>();//first attempt: is it happening?
-        regular = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        blackout.enabled = false;
-        regular.enabled = true;
+       // blackout = GameObject.FindGameObjectWithTag("BlackCam").GetComponent<Camera>();//first attempt: is it happening?
+      //  regular = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+       // blackout.enabled = false;
+      //  regular.enabled = true;
         DontDestroyOnLoad(gameObject);
-        loading = false;
+        loading = false;//reset whichEntrance?
         tracker = lastMap = 0;
+        //THIS  whichEntrance = 1;
     }
     void Update()
     {
@@ -37,11 +40,11 @@ public class Globals : MonoBehaviour {
                             //tracker == scene to be entered
                             //lastMap == scene that was last in (for placement purposes in new scene)
         {
-            blackout = GameObject.FindGameObjectWithTag("BlackCam").GetComponent<Camera>();
-            regular = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+         //   blackout = GameObject.FindGameObjectWithTag("BlackCam").GetComponent<Camera>();
+         //   regular = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
             //set blackcam to true and regular to false
-            blackout.enabled = true;
-            regular.enabled = false;
+           // blackout.enabled = true;
+          //  regular.enabled = false;
            // Debug.Log("Loading == true");
 
 
@@ -49,7 +52,6 @@ public class Globals : MonoBehaviour {
             {
                // Debug.Log("Tracker == 0, LastMap = " + lastMap);
                 SceneManager.LoadScene(0);
-                
                 loading = false;
             }
 
@@ -75,10 +77,9 @@ public class Globals : MonoBehaviour {
                 SceneManager.LoadScene(4);
                 loading = false;
             }
-
-
-            blackout.enabled = false;
-            regular.enabled = true;
+            
+            //   blackout.enabled = false;
+            //  regular.enabled = true;
             //set regular cam to true and black cam to false
         }
         
