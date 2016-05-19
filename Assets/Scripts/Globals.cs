@@ -7,10 +7,11 @@ using System.Collections.Generic;
 public class Globals : MonoBehaviour {
     public int tracker;
     public int lastMap;
-    //THIS public int whichEntrance;
+    public int whichEntrance;
     public bool loading;
+    public bool hasLoaded = false;
     public Globals recGlobals;
-
+    
     //Camera blackout;
    // Camera regular;
     void Awake()
@@ -40,47 +41,63 @@ public class Globals : MonoBehaviour {
                             //tracker == scene to be entered
                             //lastMap == scene that was last in (for placement purposes in new scene)
         {
-         //   blackout = GameObject.FindGameObjectWithTag("BlackCam").GetComponent<Camera>();
-         //   regular = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+            //   blackout = GameObject.FindGameObjectWithTag("BlackCam").GetComponent<Camera>();
+            //   regular = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
             //set blackcam to true and regular to false
-           // blackout.enabled = true;
-          //  regular.enabled = false;
-           // Debug.Log("Loading == true");
-
+            // blackout.enabled = true;
+            //  regular.enabled = false;
+            // Debug.Log("Loading == true");
+            hasLoaded = true;
 
             if (tracker == 0)//coming into town
             {
-               // Debug.Log("Tracker == 0, LastMap = " + lastMap);
-                SceneManager.LoadScene(0);
+                // Debug.Log("Tracker == 0, LastMap = " + lastMap);
                 loading = false;
+                SceneManager.LoadScene(0);
+                
             }
 
             else if (tracker == 2)//coming into itemshop
             {
-               // Debug.Log("Tracker == 2, LastMap = " + lastMap);
-                SceneManager.LoadScene(2);
+                // Debug.Log("Tracker == 2, LastMap = " + lastMap);
                 loading = false;
+                SceneManager.LoadScene(2);
+                
             }
 
             else if (tracker == 3)//coming into health hut last
             {
-                SceneManager.LoadScene(3);
                 loading = false;
+                SceneManager.LoadScene(3);
+                
             }
             else if (tracker == 1)//coming into forrest last
             {
-                SceneManager.LoadScene(1);
                 loading = false;
+                SceneManager.LoadScene(1);
+                
             }
             else if (tracker == 4)//coming into forrest last
             {
-                SceneManager.LoadScene(4);
                 loading = false;
+                SceneManager.LoadScene(4);
+                
             }
             
             //   blackout.enabled = false;
             //  regular.enabled = true;
             //set regular cam to true and black cam to false
+            //new loadedBool for player pos. updating?
+            
+        }
+        if (hasLoaded == true)
+        {
+            //haev transforms. set them according to current tracker/scene#
+            //find the player.
+            //place character
+            //deactivate
+            hasLoaded = false;
+            return; //find the lpayer and transport accordingly. then set hasloaded to false;
         }
         
     }

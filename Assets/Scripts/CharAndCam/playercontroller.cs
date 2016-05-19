@@ -27,7 +27,7 @@ public class playercontroller : MonoBehaviour
 
     public GameObject Paladin;
     Animator anim;
-    Globals theGlobals;
+    Globals theGlobals;//ABCDEFG
 
     NavMeshAgent agent;
     private bool mouseDown;
@@ -36,14 +36,14 @@ public class playercontroller : MonoBehaviour
     void Awake()
     {
         Debug.Log("TESTING");
-        if (SceneManager.GetActiveScene().buildIndex == 0)
+        if (SceneManager.GetActiveScene().buildIndex == 0)//ABCDEFG
         {
             SpawnItemShop = GameObject.FindGameObjectWithTag("shopSpawn").GetComponent<Transform>();
             SpawnHealthHut = GameObject.FindGameObjectWithTag("healthSpawn").GetComponent<Transform>();
             //THIS SpawnHealthHutPatio = GameObject.FindGameObjectWithTag("healthSpawnPatio").GetComponent<Transform>();
             SpawnForrest = GameObject.FindGameObjectWithTag("forrestSpawn").GetComponent<Transform>();
         }
-        else if (SceneManager.GetActiveScene().buildIndex == 1)
+        else if (SceneManager.GetActiveScene().buildIndex == 1)//ABCDEFG
         {
             //Debug.Log("IsThisRun?");
             SpawnDen = GameObject.FindGameObjectWithTag("denSpawn").GetComponent<Transform>();
@@ -56,8 +56,9 @@ public class playercontroller : MonoBehaviour
 
         musictracker = GameObject.FindGameObjectWithTag("musictracker").GetComponent<AmbientSong>();
         songOn = false;
-        theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();
-        
+
+        theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();//ABCDEFG
+
         anim = Paladin.GetComponent<Animator>();
         isIdle = true;
         isAttacking = false;
@@ -65,7 +66,7 @@ public class playercontroller : MonoBehaviour
         isDancing = false;
 
        
-        if (theGlobals.tracker == 0)//entering town
+        if (theGlobals.tracker == 0)//entering town     //ABCDEFG
         {
             if (theGlobals.lastMap == 2)//from shop
             {
@@ -124,7 +125,7 @@ public class playercontroller : MonoBehaviour
 
     void Update()
     {
-        //THIS  if (theGlobals.tracker == 1 && theGlobals.lastMap == 4 && stillfuck == true)
+        //THIS  if (theGlobals.tracker == 1 && theGlobals.lastMap == 4 && stillfuck == true)        //ABCDEFG
         //THIS  {
         //THIS      gameObject.transform.position = SpawnDen.position;
         //THIS      stillfuck = false;
@@ -175,40 +176,31 @@ public class playercontroller : MonoBehaviour
 
         if (agent.remainingDistance > 0.5f)
         {
-           // if (songOn == true)
-           // {
-           //     musictracker.Unpause();
-            //}
-            GetComponent<AudioSource>().Stop();//turn off song on dance stop
+            GetComponent<AudioSource>().Stop();
             isRunning = true;
             isIdle = false;
             isAttacking = false;
             isDancing = false;
        }
 
-        else if (agent.remainingDistance <= 0.5f)//prob. solve for instant run deactivate
+        else if (agent.remainingDistance <= 0.5f)//always compare with stopping distance on character
         {
             isRunning = false;
             isAttacking = false;
             if (!isDancing)
             {
-                //GetComponent<AudioSource>().Stop();//turn off song on dance stop
-                //musictracker.GetComponent<AudioSource>().enabled = true;
                 isIdle = true;
                 songOn = false;
-               
-                
             }
             else
             {
                 if (songOn == false)
                 {
                         musictracker.Pause();
-                        GetComponent<AudioSource>().PlayOneShot(Beats);//turn on song on dance
+                        GetComponent<AudioSource>().PlayOneShot(Beats);
                         songOn = true;
                 }
                 isIdle = false;
-
             }
         }
 
@@ -286,12 +278,4 @@ public class playercontroller : MonoBehaviour
 
     }
     */
-    /*void OnTriggerEnter (Collider Other)
-    {
-        Debug.Log(canWalk);
-        if ((Other.tag == "wall")|| Other.tag == "NPC")
-         canWalk = false;
-        Debug.Log(canWalk);
-    }*/
-
 }
