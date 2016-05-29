@@ -5,7 +5,7 @@ using System.Collections;
 public class playercontroller : MonoBehaviour
 {
     public Transform SpawnItemShop;
-    //THIS public Transform SpawnHealthHutPatio;
+    public Transform SpawnHealthHutPatio;
     public Transform SpawnHealthHut;
     public Transform SpawnForrest;
     public Transform SpawnDen;
@@ -22,8 +22,7 @@ public class playercontroller : MonoBehaviour
     bool stillfuck = true;
     bool itemshopfuck = true;
     bool patiospawnfuck = true;
-    //bool fuckthisspawnglitch = false;
-    //bool doublefuckthisspawnglitch = false;
+    
 
     public GameObject Paladin;
     Animator anim;
@@ -40,7 +39,7 @@ public class playercontroller : MonoBehaviour
         {
             SpawnItemShop = GameObject.FindGameObjectWithTag("shopSpawn").GetComponent<Transform>();
             SpawnHealthHut = GameObject.FindGameObjectWithTag("healthSpawn").GetComponent<Transform>();
-            //THIS SpawnHealthHutPatio = GameObject.FindGameObjectWithTag("healthSpawnPatio").GetComponent<Transform>();
+            SpawnHealthHutPatio = GameObject.FindGameObjectWithTag("healthSpawnPatio").GetComponent<Transform>();
             SpawnForrest = GameObject.FindGameObjectWithTag("forrestSpawn").GetComponent<Transform>();
         }
         else if (SceneManager.GetActiveScene().buildIndex == 1)//ABCDEFG
@@ -59,7 +58,7 @@ public class playercontroller : MonoBehaviour
 
         theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();//ABCDEFG
 
-        anim = Paladin.GetComponent<Animator>();
+        anim = Paladin.GetComponent<Animator>();//ANIMATION BOOL TRIGGERS
         isIdle = true;
         isAttacking = false;
         isRunning = false;
@@ -70,37 +69,44 @@ public class playercontroller : MonoBehaviour
         {
             if (theGlobals.lastMap == 2)//from shop
             {
+               agent.enabled = false;
                gameObject.transform.position = SpawnItemShop.position;
+               gameObject.transform.rotation = SpawnItemShop.rotation;
+               agent.enabled = true;
             }
             else if (theGlobals.lastMap == 3)//from health
             {
-                gameObject.transform.position = SpawnHealthHut.position;//THIS
-                //THIS      if (theGlobals.whichEntrance == 1)//leaving through front door
-                //THIS      {
-                //THIS          gameObject.transform.position = SpawnHealthHut.position;
-                //THIS      }
-                //THIS      if (theGlobals.whichEntrance == 2)//leaving through patio door
-                //THIS      {
-                //THIS         gameObject.transform.position = SpawnHealthHutPatio.position;
-                //THIS       }
+                if (theGlobals.whichEntrance == 1)//leaving through front door
+                {
+                    agent.enabled = false;
+                    gameObject.transform.position = SpawnHealthHut.position;
+                    gameObject.transform.rotation = SpawnHealthHut.rotation;
+                    agent.enabled = true;
+                }
+               if (theGlobals.whichEntrance == 2)//leaving through patio door
+                {
+                    agent.enabled = false;
+                    gameObject.transform.position = SpawnHealthHutPatio.position;
+                    gameObject.transform.rotation = SpawnHealthHutPatio.rotation;
+                    agent.enabled = true;
+                }
             }
             else if (theGlobals.lastMap == 1)//from forrest
             {
+                agent.enabled = false;
                 gameObject.transform.position = SpawnForrest.position;
+                gameObject.transform.rotation = SpawnForrest.rotation;
+                agent.enabled = true;
             }
         }
         else if (theGlobals.tracker == 1)//entering forrest
         {
             if (theGlobals.lastMap == 4)//from den
             {
-                Debug.Log(SpawnDen.position);
+                agent.enabled = false;
                 gameObject.transform.position = SpawnDen.position;
-                //gameObject.transform.position = SpawnForrestMiddle.position;
-                //gameObject.transform.position = new Vector3(SpawnDen.position.x, SpawnDen.position.y, SpawnDen.position.z);//new Vector3(30.0f, 0.0f, 0.0f);//SpawnDen.position;
-                //fuckthisspawnglitch = true;
-                //doublefuckthisspawnglitch = true;
-                //fuckin weird ass problem here where the player doesn't spawn at spawnden
-                //the player will move with this line on, but doesn't move to the right location... they end up by some tree
+                gameObject.transform.rotation = SpawnDen.rotation;
+                agent.enabled = true;
             }
             else if (theGlobals.lastMap == 0)//from town
             {
@@ -125,25 +131,6 @@ public class playercontroller : MonoBehaviour
 
     void Update()
     {
-        //THIS  if (theGlobals.tracker == 1 && theGlobals.lastMap == 4 && stillfuck == true)        //ABCDEFG
-        //THIS  {
-        //THIS      gameObject.transform.position = SpawnDen.position;
-        //THIS      stillfuck = false;
-        //THIS  }
-        //THIS  if (theGlobals.tracker == 0 && theGlobals.lastMap == 2 && itemshopfuck == true)
-        //THIS   {
-        //THIS      SpawnItemShop = GameObject.FindGameObjectWithTag("shopSpawn").GetComponent<Transform>();///
-        //THIS      gameObject.transform.position = SpawnItemShop.position;
-        //THIS        itemshopfuck = false;
-        //THIS   }
-        //THIS  if (theGlobals.tracker == 0 && theGlobals.lastMap == 3 && patiospawnfuck == true && theGlobals.whichEntrance == 2)
-        //THIS    {
-        //THIS        SpawnHealthHutPatio = GameObject.FindGameObjectWithTag("healthSpawnPatio").GetComponent<Transform>();//
-        //THIS        gameObject.transform.position = SpawnHealthHutPatio.position;
-        //THIS        patiospawnfuck = false;
-        //THIS   }
-
-
         if ((Input.GetKeyDown(KeyCode.D)) && (isIdle == true))
         {
             Debug.Log("DANCE BITCH");

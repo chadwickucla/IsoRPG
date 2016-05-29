@@ -9,7 +9,6 @@ public class Globals : MonoBehaviour {
     public int lastMap;
     public int whichEntrance;
     public bool loading;
-    public bool hasLoaded = false;
     public Globals recGlobals;
     
     //Camera blackout;
@@ -25,15 +24,15 @@ public class Globals : MonoBehaviour {
 
     void Start()
     {
-        //make  a list. check all objects with tag TheGM. if list is larger than 1, destroy this objcet
+       //make  a list. check all objects with tag TheGM. if list is larger than 1, destroy this objcet
        // blackout = GameObject.FindGameObjectWithTag("BlackCam").GetComponent<Camera>();//first attempt: is it happening?
-      //  regular = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+       //  regular = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
        // blackout.enabled = false;
-      //  regular.enabled = true;
+       //  regular.enabled = true;
         DontDestroyOnLoad(gameObject);
         loading = false;//reset whichEntrance?
         tracker = lastMap = 0;
-        //THIS  whichEntrance = 1;
+        whichEntrance = 1;
     }
     void Update()
     {
@@ -47,7 +46,6 @@ public class Globals : MonoBehaviour {
             // blackout.enabled = true;
             //  regular.enabled = false;
             // Debug.Log("Loading == true");
-            hasLoaded = true;
 
             if (tracker == 0)//coming into town
             {
@@ -90,16 +88,6 @@ public class Globals : MonoBehaviour {
             //new loadedBool for player pos. updating?
             
         }
-        if (hasLoaded == true)
-        {
-            //haev transforms. set them according to current tracker/scene#
-            //find the player.
-            //place character
-            //deactivate
-            hasLoaded = false;
-            return; //find the lpayer and transport accordingly. then set hasloaded to false;
-        }
-        
     }
 }
 //problem: two trackers spawn and the newest one pulls player to original location
