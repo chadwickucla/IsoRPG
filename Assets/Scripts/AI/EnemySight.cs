@@ -5,6 +5,7 @@ public class EnemySight : MonoBehaviour {
     public float fieldOfViewAngle = 110f;
     public bool playerInSight;
     public Vector3 personalLastSighting;
+    private SphereCollider col;
     private NavMeshAgent nav;
     private GameObject player;
     private LayerMask mask = -1;
@@ -18,6 +19,7 @@ public class EnemySight : MonoBehaviour {
     void Start()
     {
         reduceRunAnim = 1.0f;
+        col = GetComponent<SphereCollider>(); 
         anim = gameObject.GetComponent<Animator>();
         nav = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -26,58 +28,62 @@ public class EnemySight : MonoBehaviour {
     }
     void Update()
     {
-        
-        if (playerInSight == true)//we r gonna be running
+        if (playerInSight == true)
         {
-          // Debug.Log(nav.remainingDistance);
-            if (nav.remainingDistance > 3)//CHASE RANEG
-            {
-                //Debug.Log("PlayerInSightButFar");
-                
-                anim.SetBool("isRunning", true);
-               //GetComponent<Animation>()["Vampire_A_Lusth@running_inPlace"].speed = reduceRunAnim;//possible way to reduce odd run look
-                anim.SetBool("isDancing", false);
-                anim.SetBool("isIdle", false);
-            }
-            else
-            {
-                //Debug.Log("PlayerInSightButNear");
-                if (nav.remainingDistance <3 )//ATTACL/DANCE RANGE
-                { 
-                anim.SetBool("isRunning", false);
-                anim.SetBool("isDancing", true);
-                anim.SetBool("isIdle", false);//placeholder for attacking
-                }
-            }
             personalLastSighting = player.transform.position;
+            if (Vector3.Distance(player.transform.position,gameObject.transform.position) > 3) { 
+                pursuePlayer();
+                nav.SetDestination(personalLastSighting);
+            } else
+                danceWithPlayer();
         }
-        else//PLAYER ESCAPED
-        {
-            //Debug.Log("PlayerNotInSight");
-            anim.SetBool("isRunning", false);
-            anim.SetBool("isDancing", false);
-            if (nav.remainingDistance < 3)
-                anim.SetBool("isIdle", true);
-        }
-       // if (nav.remainingDistance > .5)
-      //  {
-        
-        nav.SetDestination(personalLastSighting);
-       // }
+        else if (playerInSight == false && nav.remainingDistance <= 3)
+            patrolArea();
     }
-    /*void OnLevelWasLoaded(int level)
+
+    void pursuePlayer () {
+        anim.SetBool("isRunning", true);
+        anim.SetBool("isDancing", false);
+        anim.SetBool("isIdle", false);
+
+    }
+
+    void danceWithPlayer()
     {
-        playerInSight = false;
         anim.SetBool("isRunning", false);
         anim.SetBool("isDancing", true);
-        anim.SetBool("isIdle", false);
-    }*/
+        anim.SetBool("isIdle", false);//placeholder for attacking
+    }
+    
+    void patrolArea()
+    {
+        anim.SetBool("isRunning", false);
+        anim.SetBool("isDancing", false);
+        anim.SetBool("isIdle", true);
+    }
 
     void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
         {
-            playerInSight = true;
+            Vector3 direction = other.transform.position - transform.position;
+            float angle = Vector3.Angle(direction, transform.forward);
+
+            if (angle < fieldOfViewAngle * 0.5f)
+            {
+
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position + transform.up, direction.normalized, out hit, col.radius))
+                {
+                    if (hit.collider.gameObject == player)
+                        playerInSight = true;
+                    //else
+                        //playerInSight = false;
+                }
+                //else
+                    //playerInSight = false;
+
+            }
         }
     }
     void OnTriggerExit(Collider other)
