@@ -54,17 +54,9 @@ public class playercontroller : MonoBehaviour
 
     void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.D)) && (isIdle == true))
-        {
-            Debug.Log("DANCE BITCH");
-            isDancing = true;
-        }
         if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0)
         {
-            if (isDancing == true)
-            {
-                musictracker.Unpause();
-            }
+            musictracker.Unpause();
             mouseDown = true;
         }
         if (Input.GetMouseButtonUp(0) && GUIUtility.hotControl == 0)
@@ -72,76 +64,89 @@ public class playercontroller : MonoBehaviour
             mouseDown = false;
         }
 
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            agent.SetDestination(transform.position);
+            if (!isDancing)
+                startDance();
+            else
+                stopDance();
+        }
         if (mouseDown == true)
         {
-           
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100, mask.value))
-            {
-                agent.SetDestination(hit.point);
-            }
+            stopDance();
+            movePlayer();
         }
-
+        if (agent.remainingDistance < 0.5f && !isDancing)
+        {
+            idlePlayer();
+        }
+    }
+    void movePlayer()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100, mask.value))
+        {
+            agent.SetDestination(hit.point);
+        }
 
         if (agent.remainingDistance > 0.5f)
         {
-            GetComponent<AudioSource>().Stop();
-            isRunning = true;
-            isIdle = false;
-            isAttacking = false;
-            isDancing = false;
-       }
+            playerRun();
+        }
+        else
+        {
+            playerIdle();   
+        }
+    }
+    void idlePlayer()
+    {
+        if (agent.remainingDistance <= 0.5f)
+            playerIdle();
+    }
+    void startDance ()
+    {
+        isDancing = true;
+        musictracker.Pause();
 
-        else if (agent.remainingDistance <= 0.5f)//always compare with stopping distance on character
-        {
-            isRunning = false;
-            isAttacking = false;
-            if (!isDancing)
-            {
-                isIdle = true;
-                songOn = false;
-            }
-            else
-            {
-                if (songOn == false)
-                {
-                        musictracker.Pause();
-                        GetComponent<AudioSource>().PlayOneShot(Beats);
-                        songOn = true;
-                }
-                isIdle = false;
-            }
-        }
-
-        if (isRunning == true)
-        {
-            anim.SetBool("isDancing", false);
-            anim.SetBool("isRunning",true);
-            anim.SetBool("isIdle", false);
-            anim.SetBool("isAttacking", false);
-        }
-        else if (isAttacking == true)
-        {
-            anim.SetBool("isDancing", false);
-            anim.SetBool("isRunning", false);
-            anim.SetBool("isIdle", false);
-            anim.SetBool("isAttacking",true);
-        }
-        else if(isIdle == true)
-        {
-            anim.SetBool("isDancing", false);
-            anim.SetBool("isRunning", false);
-            anim.SetBool("isAttacking", false);
-            anim.SetBool("isIdle",true);
-        }
-        else if (isDancing == true)
-        {
-            anim.SetBool("isDancing", true);
-            anim.SetBool("isRunning", false);
-            anim.SetBool("isIdle", false);
-            anim.SetBool("isAttacking", false);
-        }
+        GetComponent<AudioSource>().enabled = true;
+        GetComponent<AudioSource>().PlayOneShot(Beats);
+        playerDance();
+    }
+    void stopDance()
+    {
+        isDancing = false;
+        playerIdle();
+        musictracker.Unpause();
+        GetComponent<AudioSource>().enabled = false;
+    }
+    void playerDance()
+    {
+        anim.SetBool("isDancing", true);
+        anim.SetBool("isRunning", false);
+        anim.SetBool("isIdle", false);
+        anim.SetBool("isAttacking", false);
+    }
+    void playerIdle() {
+        anim.SetBool("isDancing", false);
+        anim.SetBool("isRunning", false);
+        anim.SetBool("isAttacking", false);
+        anim.SetBool("isIdle", true);
+    }
+    void playerAttack()
+    {
+        anim.SetBool("isDancing", false);
+        anim.SetBool("isRunning", false);
+        anim.SetBool("isIdle", false);
+        anim.SetBool("isAttacking", true);
+    }
+    void playerRun()
+    {
+        anim.SetBool("isDancing", false);
+        anim.SetBool("isRunning", true);
+        anim.SetBool("isIdle", false);
+        anim.SetBool("isAttacking", false);
     }
     void loadSpawnPoints(int sceneIndex)
     {
