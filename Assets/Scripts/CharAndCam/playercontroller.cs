@@ -20,11 +20,6 @@ public class playercontroller : MonoBehaviour
     private bool songOn;
     private int sceneIndex;
 
-    bool stillfuck = true;
-    bool itemshopfuck = true;
-    bool patiospawnfuck = true;
-    
-
     public GameObject Paladin;
     Animator anim;
     Globals theGlobals;//ABCDEFG
@@ -42,81 +37,19 @@ public class playercontroller : MonoBehaviour
 
     void Start()
     {
+        //init vars
         agent = GetComponent<NavMeshAgent>();
-
         musictracker = GameObject.FindGameObjectWithTag("musictracker").GetComponent<AmbientSong>();
         songOn = false;
-
         theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();//ABCDEFG
-
         anim = Paladin.GetComponent<Animator>();//ANIMATION BOOL TRIGGERS
         isIdle = true;
         isAttacking = false;
         isRunning = false;
         isDancing = false;
 
-       
-        if (theGlobals.tracker == 0)//entering town     //ABCDEFG
-        {
-            if (theGlobals.lastMap == 2)//from shop
-            {
-               agent.enabled = false;
-               gameObject.transform.position = SpawnItemShop.position;
-               gameObject.transform.rotation = SpawnItemShop.rotation;
-               agent.enabled = true;
-            }
-            else if (theGlobals.lastMap == 3)//from health
-            {
-                if (theGlobals.whichEntrance == 1)//leaving through front door
-                {
-                    agent.enabled = false;
-                    gameObject.transform.position = SpawnHealthHut.position;
-                    gameObject.transform.rotation = SpawnHealthHut.rotation;
-                    agent.enabled = true;
-                }
-               if (theGlobals.whichEntrance == 2)//leaving through patio door
-                {
-                    agent.enabled = false;
-                    gameObject.transform.position = SpawnHealthHutPatio.position;
-                    gameObject.transform.rotation = SpawnHealthHutPatio.rotation;
-                    agent.enabled = true;
-                }
-            }
-            else if (theGlobals.lastMap == 1)//from forrest
-            {
-                agent.enabled = false;
-                gameObject.transform.position = SpawnForrest.position;
-                gameObject.transform.rotation = SpawnForrest.rotation;
-                agent.enabled = true;
-            }
-        }
-        else if (theGlobals.tracker == 1)//entering forrest
-        {
-            if (theGlobals.lastMap == 4)//from den
-            {
-                agent.enabled = false;
-                gameObject.transform.position = SpawnDen.position;
-                gameObject.transform.rotation = SpawnDen.rotation;
-                agent.enabled = true;
-            }
-            else if (theGlobals.lastMap == 0)//from town
-            {
-                //do nothing since we want the char to spawn at typical location
-            }
-        }
-        else if (theGlobals.tracker == 2)//entering shop
-        {
-
-        }
-        else if (theGlobals.tracker == 3)//entering health
-        {
-
-        }
+        positionPlayer();
         
-        else if (theGlobals.tracker == 4)//entering den
-        {
-
-        }
     }
 
 
@@ -222,48 +155,50 @@ public class playercontroller : MonoBehaviour
             SpawnDen = GameObject.FindGameObjectWithTag("denSpawn").GetComponent<Transform>();
         }
     }
-    /*
-    void Update()
+
+    void positionPlayer()
     {
-        destinationDistance = Vector3.Distance(destinationPosition, myTransform.position);
-
-        if (destinationDistance < .5f)
-        {
-            moveSpeed = 0;
-        }
-        else if (destinationDistance > .5f)
-        {
-            moveSpeed = playerSpeed;
-        }
-
-
-        // Moves the Player if the Left Mouse Button was clicked
-        if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0)
-        {
-            mouseDown = true;
-        }
-        if (Input.GetMouseButtonUp(0) && GUIUtility.hotControl == 0)
-        {
-            mouseDown = false;
-            canWalk = true;
-        }
-        if (mouseDown == true)
-        { 
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                destinationPosition = hit.point;
+        if (theGlobals.tracker == 0) { //Entering Town
+            if (theGlobals.lastMap == 2) { //from shop
+                agent.enabled = false;
+                gameObject.transform.position = SpawnItemShop.position;
+                gameObject.transform.rotation = SpawnItemShop.rotation;
+                agent.enabled = true;
+            } else if (theGlobals.lastMap == 3) { //from health
+                if (theGlobals.whichEntrance == 1) { //leaving through front door
+                    agent.enabled = false;
+                    gameObject.transform.position = SpawnHealthHut.position;
+                    gameObject.transform.rotation = SpawnHealthHut.rotation;
+                    agent.enabled = true;
+                } else if (theGlobals.whichEntrance == 2) { //leaving through patio door
+                    agent.enabled = false;
+                    gameObject.transform.position = SpawnHealthHutPatio.position;
+                    gameObject.transform.rotation = SpawnHealthHutPatio.rotation;
+                    agent.enabled = true;
+                }
+            }
+            else if (theGlobals.lastMap == 1) { //from forrest
+                agent.enabled = false;
+                gameObject.transform.position = SpawnForrest.position;
+                gameObject.transform.rotation = SpawnForrest.rotation;
+                agent.enabled = true;
             }
         }
+        else if (theGlobals.tracker == 1) { //entering forrest
+            if (theGlobals.lastMap == 4) { //from den
+                agent.enabled = false;
+                gameObject.transform.position = SpawnDen.position;
+                gameObject.transform.rotation = SpawnDen.rotation;
+                agent.enabled = true;
+            } else if (theGlobals.lastMap == 0) { //from town
+                //do nothing since we want the char to spawn at typical location
+            }
+        } else if (theGlobals.tracker == 2) { //entering shop
 
+        } else if (theGlobals.tracker == 3) { //entering health
 
-        // To prevent code from running if not needed
-        if ((destinationDistance > .5f) && canWalk == true)
-        {
-            myTransform.position = Vector3.MoveTowards(myTransform.position, new Vector3(destinationPosition.x, myTransform.position.y, destinationPosition.z), moveSpeed * Time.deltaTime);
-         }
+        } else if (theGlobals.tracker == 4) { //entering den
 
+        }
     }
-    */
 }
