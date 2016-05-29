@@ -23,21 +23,24 @@ public class LoadScene : MonoBehaviour {
         {
             if (hit.collider.tag == "portal")
             {
-                hitObj = hit.transform.gameObject; 
+                hitObj = hit.transform.gameObject;
                 Renderer rend = hitObj.GetComponent<Renderer>();
                 rend.enabled = true;
             }
             else
             {
-                Component[] allComponents = hitObj.GetComponents<Component>();
-                if (allComponents.Length == 1)
-                {
-                    //do nothing
-                } else
-                {
-                    Renderer rend = hitObj.GetComponent<Renderer>();
-                    rend.enabled = false;
-                }   
+                if (hitObj != null) { 
+                    Component[] allComponents = hitObj.GetComponents<Component>();
+                    if (allComponents.Length == 1)
+                    {
+                        //do nothing
+                    }
+                    else
+                    {
+                        Renderer rend = hitObj.GetComponent<Renderer>();
+                        rend.enabled = false;
+                    }
+                }
             }
         }
 
