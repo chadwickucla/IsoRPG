@@ -56,7 +56,6 @@ public class playercontroller : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0)
         {
-            musictracker.Unpause();
             mouseDown = true;
         }
         if (Input.GetMouseButtonUp(0) && GUIUtility.hotControl == 0)
@@ -64,7 +63,7 @@ public class playercontroller : MonoBehaviour
             mouseDown = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) && !mouseDown)
         {
             agent.SetDestination(transform.position);
             if (!isDancing)
@@ -74,16 +73,18 @@ public class playercontroller : MonoBehaviour
         }
         if (mouseDown == true)
         {
-            stopDance();
+            musictracker.Unpause();
             movePlayer();
         }
         if (agent.remainingDistance < 0.5f && !isDancing)
         {
-            idlePlayer();
+            playerIdle();
         }
     }
     void movePlayer()
     {
+        if (isDancing)
+            stopDance();
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100, mask.value))
@@ -100,16 +101,10 @@ public class playercontroller : MonoBehaviour
             playerIdle();   
         }
     }
-    void idlePlayer()
-    {
-        if (agent.remainingDistance <= 0.5f)
-            playerIdle();
-    }
     void startDance ()
     {
         isDancing = true;
         musictracker.Pause();
-
         GetComponent<AudioSource>().enabled = true;
         GetComponent<AudioSource>().PlayOneShot(Beats);
         playerDance();
@@ -128,7 +123,8 @@ public class playercontroller : MonoBehaviour
         anim.SetBool("isIdle", false);
         anim.SetBool("isAttacking", false);
     }
-    void playerIdle() {
+    void playerIdle()
+    {
         anim.SetBool("isDancing", false);
         anim.SetBool("isRunning", false);
         anim.SetBool("isAttacking", false);
