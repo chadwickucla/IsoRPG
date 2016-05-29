@@ -13,6 +13,7 @@ public class LoadScene : MonoBehaviour {
     private GameObject hitObj;
 	void Start ()
     {
+        hitObj = new GameObject();
         theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();    //find the global class  
     }
 	
