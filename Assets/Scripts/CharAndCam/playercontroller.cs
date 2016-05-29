@@ -18,6 +18,7 @@ public class playercontroller : MonoBehaviour
     private bool isRunning;
     private bool isDancing;
     private bool songOn;
+    private int sceneIndex;
 
     bool stillfuck = true;
     bool itemshopfuck = true;
@@ -34,19 +35,9 @@ public class playercontroller : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("TESTING");
-        if (SceneManager.GetActiveScene().buildIndex == 0)//ABCDEFG
-        {
-            SpawnItemShop = GameObject.FindGameObjectWithTag("shopSpawn").GetComponent<Transform>();
-            SpawnHealthHut = GameObject.FindGameObjectWithTag("healthSpawn").GetComponent<Transform>();
-            SpawnHealthHutPatio = GameObject.FindGameObjectWithTag("healthSpawnPatio").GetComponent<Transform>();
-            SpawnForrest = GameObject.FindGameObjectWithTag("forrestSpawn").GetComponent<Transform>();
-        }
-        else if (SceneManager.GetActiveScene().buildIndex == 1)//ABCDEFG
-        {
-            //Debug.Log("IsThisRun?");
-            SpawnDen = GameObject.FindGameObjectWithTag("denSpawn").GetComponent<Transform>();
-        }
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        loadSpawnPoints(sceneIndex);
+        
     }
 
     void Start()
@@ -220,7 +211,17 @@ public class playercontroller : MonoBehaviour
             anim.SetBool("isAttacking", false);
         }
     }
-    
+    void loadSpawnPoints(int sceneIndex)
+    {
+        if (sceneIndex == 0) {
+            SpawnItemShop = GameObject.FindGameObjectWithTag("shopSpawn").GetComponent<Transform>();
+            SpawnHealthHut = GameObject.FindGameObjectWithTag("healthSpawn").GetComponent<Transform>();
+            SpawnHealthHutPatio = GameObject.FindGameObjectWithTag("healthSpawnPatio").GetComponent<Transform>();
+            SpawnForrest = GameObject.FindGameObjectWithTag("forrestSpawn").GetComponent<Transform>();
+        } else if (sceneIndex == 1) {
+            SpawnDen = GameObject.FindGameObjectWithTag("denSpawn").GetComponent<Transform>();
+        }
+    }
     /*
     void Update()
     {
