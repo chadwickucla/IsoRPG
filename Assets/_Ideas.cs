@@ -9,6 +9,7 @@ Tutorials:
 		16 - 31	        name creation
 
 Tips:	
+    current den scene is actually a deeper one
 	fix up loading code
 	practice scene for golems
 	Gameobject: align to view
