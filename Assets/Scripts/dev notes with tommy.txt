@@ -1,8 +1,3 @@
-﻿using UnityEngine;
-using System.Collections;
-
-
-/*
 Tutorials:
 	Networking:	https://www.youtube.com/watch?v=JlKf0h0K5PU
 		0  - 16 	basic network setup
@@ -96,18 +91,4 @@ Networking:
 
 Optimization:
 	move to singleton
-*/
 
-
-public class _Ideas : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-}
