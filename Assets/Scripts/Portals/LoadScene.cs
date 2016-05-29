@@ -13,7 +13,6 @@ public class LoadScene : MonoBehaviour {
     private GameObject hitObj;
 	void Start ()
     {
-        hitObj = new GameObject();
         theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();    //find the global class  
     }
 	
@@ -38,7 +37,6 @@ public class LoadScene : MonoBehaviour {
                 {
                     Renderer rend = hitObj.GetComponent<Renderer>();
                     rend.enabled = false;
-                    hitObj = new GameObject();
                 }   
             }
         }
