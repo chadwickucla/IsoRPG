@@ -21,6 +21,7 @@ public class LoadScene : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100, mask.value))
         {
+            Debug.Log(hit.collider.tag);
             if (hit.collider.tag == "portal")
             {
                 hitObj = hit.transform.gameObject;
