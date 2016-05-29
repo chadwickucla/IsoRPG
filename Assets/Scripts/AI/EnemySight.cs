@@ -30,6 +30,7 @@ public class EnemySight : MonoBehaviour {
     {
         if (playerInSight == true)
         {
+
             personalLastSighting = player.transform.position;
             if (Vector3.Distance(player.transform.position,gameObject.transform.position) > 3) { 
                 pursuePlayer();
@@ -78,7 +79,7 @@ public class EnemySight : MonoBehaviour {
                     if (hit.collider.gameObject == player)
                         playerInSight = true;
                     //else
-                        //playerInSight = false;
+                    //playerInSight = false;
                 }
                 //else
                     //playerInSight = false;
@@ -90,7 +91,10 @@ public class EnemySight : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            playerInSight = false;
+            if (Vector3.Distance(player.transform.position, gameObject.transform.position) > 3)
+            {
+                playerInSight = false;
+            }
         }
     }
 }
