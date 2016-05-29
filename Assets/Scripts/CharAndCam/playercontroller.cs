@@ -31,22 +31,21 @@ public class playercontroller : MonoBehaviour
     void Awake()
     {
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        loadSpawnPoints(sceneIndex);
-        
+        loadSpawnPoints(sceneIndex); 
     }
 
     void Start()
     {
-        //init vars
-        agent = GetComponent<NavMeshAgent>();
-        musictracker = GameObject.FindGameObjectWithTag("musictracker").GetComponent<AmbientSong>();
-        songOn = false;
-        theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();//ABCDEFG
-        anim = Paladin.GetComponent<Animator>();//ANIMATION BOOL TRIGGERS
         isIdle = true;
         isAttacking = false;
         isRunning = false;
         isDancing = false;
+        songOn = false;
+
+        agent = GetComponent<NavMeshAgent>();
+        musictracker = GameObject.FindGameObjectWithTag("musictracker").GetComponent<AmbientSong>();
+        theGlobals = GameObject.FindGameObjectWithTag("TheGM").GetComponent<Globals>();//ABCDEFG
+        anim = Paladin.GetComponent<Animator>();//ANIMATION BOOL TRIGGERS
 
         positionPlayer();
         
