@@ -9,7 +9,8 @@ Tutorials:
 		16 - 31	        name creation
 
 Tips:	
-    current den scene is actually a deeper one
+    rotate spawns
+    cave music
 	fix up loading code
 	practice scene for golems
 	Gameobject: align to view
@@ -17,7 +18,8 @@ Tips:
 	GC
 	clicking on door sets bool to true. 
 	POE health hut second floor fade in/out
-	
+	spotlight on char
+
 Glitch:
 	Spawning - individual door ID
 		itemshop and patio
