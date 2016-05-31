@@ -8,7 +8,7 @@ public class EnemySight : MonoBehaviour {
     private SphereCollider col;
     private NavMeshAgent nav;
     private GameObject player;
-    private LayerMask mask = -1;
+    public LayerMask mask = -1;
 
     public float reduceRunAnim; //added this
 
