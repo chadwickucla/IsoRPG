@@ -13,9 +13,10 @@ public class playercontroller : MonoBehaviour
     public AudioClip Beats;
     public AmbientSong musictracker;
 
-    public float lookAtSpeed = 0.1f;
+    public float lookAtSpeed = .1f;
     private GameObject currentTagged;
     public string clickedTag;
+    public float attackDistance = 4f;
     string emptyString = "";
 
     private bool isIdle;
@@ -41,8 +42,7 @@ public class playercontroller : MonoBehaviour
 
     void Start()
     {
-        clickedTag = emptyString; 
-
+        clickedTag = emptyString;
         isIdle = true;
         isAttacking = false;
         isRunning = false;
@@ -63,12 +63,14 @@ public class playercontroller : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0)
         {
+            setClickedTag();
             mouseDown = true;
         }
         if (Input.GetMouseButtonUp(0) && GUIUtility.hotControl == 0)
         {
             mouseDown = false;
         }
+
 
         if (Input.GetKeyDown(KeyCode.D) && !mouseDown)
         {
@@ -81,45 +83,65 @@ public class playercontroller : MonoBehaviour
         if (mouseDown == true)
         {
             musictracker.Unpause();
-            movePlayer();
-        }
+            movePlayer();  
+        } else
+        {
 
-        /*if (agent.remainingDistance > 2.0f && clickedTag == "enemy")
+        }
+        //if (currentTagged != null)
+            //transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.deltaTime * lookAtSpeed);
+
+        if (clickedTag == "enemy")
         {
             agent.SetDestination(currentTagged.transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.deltaTime * lookAtSpeed);
-            transform.rotation = Quaternion.Euler(new Vector3(0f, transform.root.eulerAngles.y, 0f));
-        }*/
-        if (agent.remainingDistance < 0.5f && !isDancing && !agent.pathPending)
+            
+
+            if (agent.remainingDistance < attackDistance && !isDancing && !agent.pathPending)
+            {
+                agent.SetDestination(transform.position);
+                if (!mouseDown) {
+                    clickedTag = "";
+                }
+                if (currentTagged != null) {
+                    playerAttack();
+                }   
+                
+            }
+        }
+        else
         {
-            if (clickedTag != "enemy")
+            if (agent.remainingDistance < 0.5f && !isDancing && !agent.pathPending)
             {
                 playerIdle();
             }
-            else
-            {//NEW PROBLEM: ATTACKING ENEMIES UNDER OBJECTS: I>E> TREE BRANCH
-                //additional thing : Instead of SetDestination, use some follow thing
-                agent.SetDestination(transform.position);
-               // transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.deltaTime * lookAtSpeed);
-                //transform.rotation = Quaternion.Euler(new Vector3(0f, transform.rotation.eulerAngles.y, 0f));
-                //transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.time * lookAtSpeed);
-                playerAttack();
-                clickedTag = emptyString;
-            }
+        }
+
+    
+
+    }
+
+    void setClickedTag()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100, mask.value))
+        {
+            clickedTag = hit.transform.tag;
+            currentTagged = hit.transform.gameObject;
         }
     }
     void movePlayer()
     {
         if (isDancing)
             stopDance();
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100, mask.value))
+        if (clickedTag != "enemy")
         {
-            Debug.Log(hit.transform.tag);
-            agent.SetDestination(hit.point);
-            clickedTag = hit.transform.tag;
-            currentTagged = hit.transform.gameObject;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100, mask.value))
+            {
+                agent.SetDestination(hit.point);
+            }
         }
         if (agent.remainingDistance > 0.5f)
         {
