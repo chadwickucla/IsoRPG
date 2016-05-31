@@ -21,7 +21,6 @@ public class LoadScene : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100, mask.value))
         {
-            Debug.Log(hit.collider.tag);
             if (hit.collider.tag == "portal")
             {
                 hitObj = hit.transform.gameObject;
@@ -31,7 +30,7 @@ public class LoadScene : MonoBehaviour {
             else
             {
                 if (hitObj != null) { 
-                    Component[] allComponents = hitObj.GetComponents<Component>();
+                    Component[] allComponents = hitObj.GetComponents< Component>();
                     if (allComponents.Length == 1)
                     {
                         //do nothing

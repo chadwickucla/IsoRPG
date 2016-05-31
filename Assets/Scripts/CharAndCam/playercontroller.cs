@@ -89,6 +89,7 @@ public class playercontroller : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100, mask.value))
         {
+            Debug.Log(hit.transform.tag);
             agent.SetDestination(hit.point);
         }
 
