@@ -8,7 +8,9 @@ Tutorials:
 		0  - 16 	basic network setup
 		16 - 31	        name creation
 
-Tips:	
+Tips:
+    closer camera in cave scenes/indoors
+    longer dancing = more particles and end = fireworks	
     rotate spawns
     cave music
 	fix up loading code
