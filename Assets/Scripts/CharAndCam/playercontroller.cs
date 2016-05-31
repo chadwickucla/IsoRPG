@@ -13,6 +13,11 @@ public class playercontroller : MonoBehaviour
     public AudioClip Beats;
     public AmbientSong musictracker;
 
+    public float lookAtSpeed = 0.1f;
+    private GameObject currentTagged;
+    public string clickedTag;
+    string emptyString = "";
+
     private bool isIdle;
     private bool isAttacking;
     private bool isRunning;
@@ -36,6 +41,8 @@ public class playercontroller : MonoBehaviour
 
     void Start()
     {
+        clickedTag = emptyString; 
+
         isIdle = true;
         isAttacking = false;
         isRunning = false;
@@ -76,9 +83,29 @@ public class playercontroller : MonoBehaviour
             musictracker.Unpause();
             movePlayer();
         }
-        if (agent.remainingDistance < 0.5f && !isDancing)
+
+        /*if (agent.remainingDistance > 2.0f && clickedTag == "enemy")
         {
-            playerIdle();
+            agent.SetDestination(currentTagged.transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.deltaTime * lookAtSpeed);
+            transform.rotation = Quaternion.Euler(new Vector3(0f, transform.root.eulerAngles.y, 0f));
+        }*/
+        if (agent.remainingDistance < 0.5f && !isDancing && !agent.pathPending)
+        {
+            if (clickedTag != "enemy")
+            {
+                playerIdle();
+            }
+            else
+            {//NEW PROBLEM: ATTACKING ENEMIES UNDER OBJECTS: I>E> TREE BRANCH
+                //additional thing : Instead of SetDestination, use some follow thing
+                agent.SetDestination(transform.position);
+               // transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.deltaTime * lookAtSpeed);
+                //transform.rotation = Quaternion.Euler(new Vector3(0f, transform.rotation.eulerAngles.y, 0f));
+                //transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.time * lookAtSpeed);
+                playerAttack();
+                clickedTag = emptyString;
+            }
         }
     }
     void movePlayer()
@@ -91,15 +118,16 @@ public class playercontroller : MonoBehaviour
         {
             Debug.Log(hit.transform.tag);
             agent.SetDestination(hit.point);
+            clickedTag = hit.transform.tag;
+            currentTagged = hit.transform.gameObject;
         }
-
         if (agent.remainingDistance > 0.5f)
         {
             playerRun();
         }
         else
         {
-            playerIdle();   
+            playerIdle();
         }
     }
     void startDance ()

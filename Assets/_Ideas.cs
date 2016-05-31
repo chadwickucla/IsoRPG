@@ -9,9 +9,10 @@ Tutorials:
 		16 - 31	        name creation
 
 Tips:
+    all entries include ignoreclick on Load Scene Script
     closer camera in cave scenes/indoors
     longer dancing = more particles and end = fireworks	
-    rotate spawns
+    rotate spawnsw
     cave music
 	fix up loading code
 	practice scene for golems
