@@ -13,10 +13,10 @@ public class playercontroller : MonoBehaviour
     public AudioClip Beats;
     public AmbientSong musictracker;
 
-    public float lookAtSpeed = 50f;
+    public float lookAtSpeed = 25f;
     private GameObject currentTagged;
     public string clickedTag;
-    public float attackDistance = 4f;
+    public float attackDistance = 3f;
     string emptyString = "";
 
     private bool isIdle;
