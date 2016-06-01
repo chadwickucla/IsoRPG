@@ -32,6 +32,7 @@ public class playercontroller : MonoBehaviour
 
     NavMeshAgent agent;
     private bool mouseDown;
+    private bool shiftDown;
     public LayerMask mask = -1;
 
     void Awake()
@@ -70,8 +71,6 @@ public class playercontroller : MonoBehaviour
         {
             mouseDown = false;
         }
-
-
         if (Input.GetKeyDown(KeyCode.D) && !mouseDown)
         {
             agent.SetDestination(transform.position);
@@ -80,14 +79,21 @@ public class playercontroller : MonoBehaviour
             else
                 stopDance();
         }
-        if (mouseDown == true)
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            shiftDown = true;
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+            shiftDown = false;
+
+        if (mouseDown && !shiftDown)
         {
             musictracker.Unpause();
             movePlayer();  
-        } else
+        } else if (mouseDown && shiftDown)
         {
-
-        }
+            agent.SetDestination(transform.position);
+            playerAttack();
+            
+        } 
         //if (currentTagged != null)
             //transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.deltaTime * lookAtSpeed);
 
@@ -110,7 +116,7 @@ public class playercontroller : MonoBehaviour
         }
         else
         {
-            if (agent.remainingDistance < 0.5f && !isDancing && !agent.pathPending)
+            if (agent.remainingDistance < 0.5f && !isDancing && !agent.pathPending && !mouseDown && !shiftDown)
             {
                 playerIdle();
             }
