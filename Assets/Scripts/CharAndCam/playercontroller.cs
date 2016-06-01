@@ -113,6 +113,7 @@ public class playercontroller : MonoBehaviour
     
 
     }
+
     void pursueEnemy() {
         agent.SetDestination(currentTagged.transform.position);
         if (agent.remainingDistance < attackDistance && !isDancing && !agent.pathPending)

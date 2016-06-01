@@ -28,6 +28,9 @@ public class EnemySight : MonoBehaviour {
     }
     void Update()
     {
+        if (anim.GetBool("isDead") == true)
+            return;
+
         if (playerInSight == true)
         {
 
