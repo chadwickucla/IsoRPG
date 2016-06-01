@@ -90,41 +90,17 @@ public class playercontroller : MonoBehaviour
             movePlayer();  
         } else if (mouseDown && shiftDown)
         {
-            rotatePlayerWithMouse();
-            agent.SetDestination(transform.position);
-            playerAttack();
-            clickedTag = emptyString;
+            attackInPlace();
+            
         } else if (!mouseDown && shiftDown){
             agent.SetDestination(transform.position);
             playerIdle();
         }
-        //if (currentTagged != null)
-            //transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.deltaTime * lookAtSpeed);
-/*
-known attack bugs:
-player doesn't always rotate to nearby clicked enemy
-player continues to run in place if shift is held while in movement and not released on stop
-player doesn't follow mouse position on shift hold
-*/
+
         if (clickedTag == "enemy" && !shiftDown)
         {
-            agent.SetDestination(currentTagged.transform.position);
-
-            if (agent.remainingDistance < attackDistance && !isDancing && !agent.pathPending)
-            {
-                agent.SetDestination(transform.position);
-                if (!mouseDown) {
-                    clickedTag = "";
-                }
-                if (currentTagged != null) {
-                    Vector3 playerToEnemy = currentTagged.transform.position - transform.position;
-                    playerToEnemy.y = 0.0f;
-                    Quaternion newRotation = Quaternion.LookRotation(playerToEnemy);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * lookAtSpeed);
-                    playerAttack();
-                }   
-                
-            }
+            pursueEnemy();
+            
         }
         else
         {
@@ -136,6 +112,33 @@ player doesn't follow mouse position on shift hold
 
     
 
+    }
+    void pursueEnemy() {
+        agent.SetDestination(currentTagged.transform.position);
+        if (agent.remainingDistance < attackDistance && !isDancing && !agent.pathPending)
+        {
+            agent.SetDestination(transform.position);
+            if (!mouseDown)
+            {
+                clickedTag = "";
+            }
+            if (currentTagged != null)
+            {
+                Vector3 playerToEnemy = currentTagged.transform.position - transform.position;
+                playerToEnemy.y = 0.0f;
+                Quaternion newRotation = Quaternion.LookRotation(playerToEnemy);
+                transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * lookAtSpeed);
+                playerAttack();
+            }
+        }
+    }
+
+    void attackInPlace()
+    {
+        rotatePlayerWithMouse();
+        agent.SetDestination(transform.position);
+        playerAttack();
+        clickedTag = emptyString;
     }
     void rotatePlayerWithMouse()
     {
