@@ -9,6 +9,7 @@ public class EnemySight : MonoBehaviour {
     private NavMeshAgent nav;
     private GameObject player;
     public LayerMask mask = -1;
+    private bool isDead = false;
 
     public float reduceRunAnim; //added this
 
@@ -28,23 +29,40 @@ public class EnemySight : MonoBehaviour {
     }
     void Update()
     {
-        if (anim.GetBool("isDead") == true)
-            return;
-
-        if (playerInSight == true)
+        if (!isDead)
         {
+            if (anim.GetBool("isDead") == true)
+            {
+                isDead = true;
+                //remove navmeshagent
+                transform.gameObject.GetComponent<NavMeshAgent>().enabled = false;
+                //move enemy child to the ignore click layer
+                foreach (Transform child in transform)
+                {
+                    if (child.gameObject.tag == "enemy")
+                    {
+                        child.gameObject.layer = LayerMask.NameToLayer("ignoreclick");
+                    }
+                }
+                return;
+            }
+            if (playerInSight == true)
+            {
 
-            personalLastSighting = player.transform.position;
-            if (Vector3.Distance(player.transform.position,gameObject.transform.position) > 3) { 
-                pursuePlayer();
-                nav.SetDestination(personalLastSighting);
-            } else
-                danceWithPlayer();
+                personalLastSighting = player.transform.position;
+                if (Vector3.Distance(player.transform.position, gameObject.transform.position) > 3)
+                {
+                    pursuePlayer();
+                    nav.SetDestination(personalLastSighting);
+                }
+                else
+                    danceWithPlayer();
+            }
+            else if (playerInSight == false && nav.remainingDistance <= 3)
+                patrolArea();
         }
-        else if (playerInSight == false && nav.remainingDistance <= 3)
-            patrolArea();
+        
     }
-
     void pursuePlayer () {
         anim.SetBool("isRunning", true);
         anim.SetBool("isDancing", false);
