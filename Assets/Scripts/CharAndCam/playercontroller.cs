@@ -13,7 +13,7 @@ public class playercontroller : MonoBehaviour
     public AudioClip Beats;
     public AmbientSong musictracker;
 
-    private float lookAtSpeed = 5f;
+    public float lookAtSpeed = 50f;
     private GameObject currentTagged;
     public string clickedTag;
     public float attackDistance = 4f;
@@ -117,6 +117,10 @@ player doesn't follow mouse position on shift hold
                     clickedTag = "";
                 }
                 if (currentTagged != null) {
+                    Vector3 playerToEnemy = currentTagged.transform.position - transform.position;
+                    playerToEnemy.y = 0.0f;
+                    Quaternion newRotation = Quaternion.LookRotation(playerToEnemy);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * lookAtSpeed);
                     playerAttack();
                 }   
                 
