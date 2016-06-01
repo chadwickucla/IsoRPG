@@ -90,17 +90,28 @@ public class playercontroller : MonoBehaviour
             movePlayer();  
         } else if (mouseDown && shiftDown)
         {
+            
+           //  Vector3 tempTarget = new Vector3(Input.mousePosition.x,
+           //                                   this.transform.position.y,
+           //                                  Input.mousePosition.z
+           //                                ) ;
+           // this.transform.LookAt(tempTarget);
+
             agent.SetDestination(transform.position);
             playerAttack();
-            
+            clickedTag = emptyString;
         } 
         //if (currentTagged != null)
-            //transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.deltaTime * lookAtSpeed);
-
-        if (clickedTag == "enemy")
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.deltaTime * lookAtSpeed);
+/*
+known attack bugs:
+player doesn't always rotate to nearby clicked enemy
+player continues to run in place if shift is held while in movement and not released on stop
+player doesn't follow mouse position on shift hold
+*/
+        if (clickedTag == "enemy" && !shiftDown)
         {
             agent.SetDestination(currentTagged.transform.position);
-            
 
             if (agent.remainingDistance < attackDistance && !isDancing && !agent.pathPending)
             {
