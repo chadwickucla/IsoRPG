@@ -13,7 +13,7 @@ public class playercontroller : MonoBehaviour
     public AudioClip Beats;
     public AmbientSong musictracker;
 
-    public float lookAtSpeed = .1f;
+    private float lookAtSpeed = 5f;
     private GameObject currentTagged;
     public string clickedTag;
     public float attackDistance = 4f;
@@ -90,19 +90,16 @@ public class playercontroller : MonoBehaviour
             movePlayer();  
         } else if (mouseDown && shiftDown)
         {
-            
-           //  Vector3 tempTarget = new Vector3(Input.mousePosition.x,
-           //                                   this.transform.position.y,
-           //                                  Input.mousePosition.z
-           //                                ) ;
-           // this.transform.LookAt(tempTarget);
-
+            rotatePlayerWithMouse();
             agent.SetDestination(transform.position);
             playerAttack();
             clickedTag = emptyString;
-        } 
+        } else if (!mouseDown && shiftDown){
+            agent.SetDestination(transform.position);
+            playerIdle();
+        }
         //if (currentTagged != null)
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.deltaTime * lookAtSpeed);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, currentTagged.transform.rotation, Time.deltaTime * lookAtSpeed);
 /*
 known attack bugs:
 player doesn't always rotate to nearby clicked enemy
@@ -136,7 +133,18 @@ player doesn't follow mouse position on shift hold
     
 
     }
-
+    void rotatePlayerWithMouse()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100, mask.value))
+        {
+            Vector3 playerToMouse = hit.point - transform.position;
+            playerToMouse.y = 0.0f;
+            Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
+            transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * lookAtSpeed);
+        }
+    }
     void setClickedTag()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
