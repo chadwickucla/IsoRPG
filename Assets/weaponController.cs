@@ -13,11 +13,17 @@ public class weaponController : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider other) {
-        if (other.tag == "enemy" && other.GetType() == typeof(CapsuleCollider) && player.GetComponentInChildren<Animator>().GetBool("isAttacking"))
+
+        if (other.tag == "enemy" && other.GetType() == typeof(CapsuleCollider) && player.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).IsName("great_sword_slash"))
         {
+            Debug.Log("asdfasdf");
             parent = other.transform.parent.gameObject;
             anim = parent.GetComponent<Animator>();
             anim.SetBool("isDead", true);
+            anim.SetBool("isIdle", false);
+            anim.SetBool("isDancing", false);
+            anim.SetBool("isRunning", false);
+
         }
     }
 }
