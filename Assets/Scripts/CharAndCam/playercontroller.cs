@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-
+//add in anim checker booleans
 public class playercontroller : MonoBehaviour
 {
     public Transform SpawnItemShop;
@@ -65,13 +65,18 @@ public class playercontroller : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0)
         {
             setClickedTag();
+            stopDance();//to stop music when holding shift (otherwise, player moveplayer doesn't get called - so dance music continues without anim
             mouseDown = true;
         }
         if (Input.GetMouseButtonUp(0) && GUIUtility.hotControl == 0)
         {
             mouseDown = false;
         }
-        if (Input.GetKeyDown(KeyCode.D) && !mouseDown)
+        if (shiftDown && isDancing)//stops shift + d dance bugs. specifically, player can keep playing music without dancing if, while dancing, they click shift.
+        {
+            stopDance();
+        }
+        if (Input.GetKeyDown(KeyCode.D) && !mouseDown && !shiftDown)
         {
             agent.SetDestination(transform.position);
             if (!isDancing)
@@ -79,6 +84,7 @@ public class playercontroller : MonoBehaviour
             else
                 stopDance();
         }
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
             shiftDown = true;
         if (Input.GetKeyUp(KeyCode.LeftShift))

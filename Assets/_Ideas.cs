@@ -102,6 +102,17 @@ Networking:
 
 Optimization:
 	move to singleton
+
+
+
+Unorganized temp notes:
+    add a black screen, gold tracker, and soul tracker
+    add anim. bool triggers so functions don't get repeatedly called
+    music still runs on attacking
+    freeze transform on attacking; attack into a coroutine
+        hearing radius
+    make town vampires invulnerable by disabling capsule collider in childe "vampire" gameobject
+    when enemy's friend gets alerted, he draws the whole group
 */
 
 

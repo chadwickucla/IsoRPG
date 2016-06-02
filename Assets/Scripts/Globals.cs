@@ -4,7 +4,7 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 //maybe store position vectors of spawns in here? (as you find them)
-public class Globals : MonoBehaviour {
+public class Globals : MonoBehaviour {//add a black screen, gold tracker, and soul tracker
     public int tracker;
     public int lastMap;
     public int whichEntrance;
