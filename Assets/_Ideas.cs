@@ -3,6 +3,9 @@ using System.Collections;
 
 
 /*
+download asset packs separately and only send level data over git. no need to upload/dl huge files
+(send over the data once, though, so we can both have the 1 pack we bought together)
+
 Tutorials:
 	Networking:	https://www.youtube.com/watch?v=JlKf0h0K5PU
 		0  - 16 	basic network setup
@@ -106,6 +109,7 @@ Optimization:
 
 
 Unorganized temp notes:
+    push s to enter stealth
     add a black screen, gold tracker, and soul tracker
     add anim. bool triggers so functions don't get repeatedly called
     music still runs on attacking
