@@ -81,12 +81,18 @@ public class Globals : MonoBehaviour {//add a black screen, gold tracker, and so
                 SceneManager.LoadScene(4);
                 
             }
-            
+            else if (tracker == 5)//coming into forrest last
+            {
+                loading = false;
+                SceneManager.LoadScene(5);
+
+            }
+
             //   blackout.enabled = false;
             //  regular.enabled = true;
             //set regular cam to true and black cam to false
             //new loadedBool for player pos. updating?
-            
+
         }
     }
 }
